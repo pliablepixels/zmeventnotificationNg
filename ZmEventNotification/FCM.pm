@@ -12,7 +12,7 @@ use ZmEventNotification::Util qw(uniq rsplit buildPictureUrl stripFrameMatchType
 
 our @EXPORT_OK = qw(
   deleteFCMToken get_google_access_token
-  sendOverFCM sendOverFCMV1 sendOverFCMLegacy
+  sendOverFCM sendOverFCMV1
   migrateTokens initFCMTokens saveFCMTokens
   readTokenFile writeTokenFile
 );
@@ -162,11 +162,7 @@ sub get_google_access_token {
 }
 
 sub sendOverFCM {
-  if ($fcm_config{use_v1}) {
-    sendOverFCMV1(@_);
-  } else {
-    sendOverFCMLegacy(@_);
-  }
+  sendOverFCMV1(@_);
 }
 
 sub _prepare_fcm_common {
@@ -264,6 +260,8 @@ sub sendOverFCMV1 {
           data => {
             mid => "$mid",
             eid => "$eid",
+            monitorName => "$mname",
+            cause => $alarm->{Cause},
             notification_foreground => 'true'
           }
         }
@@ -325,6 +323,8 @@ sub sendOverFCMV1 {
         data  => {
           mid                     => $mid,
           eid                     => $eid,
+          monitorName             => $mname,
+          cause                   => $alarm->{Cause},
           notification_foreground => 'true'
         }
       };
@@ -388,135 +388,6 @@ sub sendOverFCMV1 {
       main::Debug(1, 'fcmv1: Removing this token as FCM doesn\'t recognize it');
       deleteFCMToken($obj->{token});
     }
-  }
-
-  _send_supplementary_msg($obj, $alarm);
-}
-
-sub sendOverFCMLegacy {
-  main::Debug(1, "Using Legacy");
-  use constant NINJA_API_KEY =>
-    'AAAApYcZ0mA:APA91bG71SfBuYIaWHJorjmBQB3cAN7OMT7bAxKuV3ByJ4JiIGumG6cQw0Bo6_fHGaWoo4Bl-SlCdxbivTv5Z-2XPf0m86wsebNIG15pyUHojzmRvJKySNwfAHs7sprTGsA_SIR_H43h';
-
-  my ($alarm, $obj, $event_type, $resCode) = @_;
-
-  my ($mid, $eid, $mname, $pic, $body, $badge, $title) =
-    _prepare_fcm_common($alarm, $obj, $event_type, $resCode, 'legacy');
-  return if !defined $mid;
-
-  my $key = 'key=' . NINJA_API_KEY;
-
-  my $ios_message = {
-    to           => $obj->{token},
-    notification => {
-      title => $title,
-      body  => $body,
-      sound => 'default',
-      badge => $badge,
-    },
-    data => {
-      notification_foreground => 'true',
-      myMessageId             => $main::notId,
-      mid                     => $mid,
-      eid                     => $eid,
-      summaryText             => $eid,
-      apns                    => {
-        payload => {
-          aps => {
-            sound             => 'default',
-            content_available => 1
-          }
-        }
-      }
-    }
-  };
-
-  my $android_message = {
-    to           => $obj->{token},
-    notification => {
-      title              => $title,
-      android_channel_id => 'zmninja',
-      icon               => 'ic_stat_notification',
-      body               => $body,
-      sound              => 'default',
-      badge              => $badge,
-    },
-    data => {
-      title       => $title,
-      message     => $body,
-      style       => 'inbox',
-      myMessageId => $main::notId,
-      icon        => 'ic_stat_notification',
-      mid         => $mid,
-      eid         => $eid,
-      badge       => $obj->{badge},
-      priority    => 1
-    }
-  };
-
-  if (defined($obj->{appversion}) && ($obj->{appversion} ne 'unknown')) {
-    main::Debug(2, 'setting channel to zmninja');
-    $android_message->{notification}->{android_channel_id} = 'zmninja';
-    $android_message->{data}->{channel} = 'zmninja';
-  } else {
-    main::Debug(2, 'legacy client, NOT setting channel to zmninja');
-  }
-  if ($notify_config{picture_url} && $notify_config{include_picture}) {
-    $ios_message->{mutable_content} = \1;
-    $ios_message->{data}->{image_url_jpg} = $pic;
-    $android_message->{notification}->{image} = $pic;
-    $android_message->{data}->{style}         = 'picture';
-    $android_message->{data}->{picture}       = $pic;
-    $android_message->{data}->{summaryText}   = 'alarmed image';
-  }
-
-  my $json;
-  if ($obj->{platform} eq 'ios') {
-    $json = encode_json($ios_message);
-  } else {
-    $json  = encode_json($android_message);
-    $main::notId = ( $main::notId + 1 ) % 100000;
-  }
-
-  my $djson = maskPassword($json);
-
-  main::Debug(2, "legacy: Final JSON being sent is: $djson to token: ..."
-      . substr( $obj->{token}, -6 ));
-  my $uri = 'https://fcm.googleapis.com/fcm/send';
-  my $req = HTTP::Request->new('POST', $uri);
-  $req->header(
-    'Content-Type'  => 'application/json',
-    'Authorization' => $key
-  );
-  $req->content($json);
-  my $lwp = LWP::UserAgent->new(%main::ssl_push_opts);
-  my $res = $lwp->request($req);
-
-  if ($res->is_success) {
-    my $msg = $res->decoded_content;
-    main::Debug(1, 'FCM push message returned a 200 with body '.$res->content);
-    my $json_string;
-    eval { $json_string = decode_json($msg); };
-    if ($@) {
-      main::Error("Failed decoding sendFCM Response: $@");
-      return;
-    }
-    if ( $json_string->{failure} eq 1 ) {
-      my $reason = 'unknown';
-      if (ref($json_string->{results}) eq 'ARRAY' && @{$json_string->{results}}) {
-        $reason = $json_string->{results}[0]->{error} // 'unknown';
-      }
-      main::Error('Error sending FCM for token:' . $obj->{token});
-      main::Error('Error value =' . $reason);
-      if ( $reason eq 'NotRegistered'
-        || $reason eq 'InvalidRegistration' )
-      {
-        main::Debug(1, 'Removing this token as FCM doesn\'t recognize it');
-        deleteFCMToken($obj->{token});
-      }
-    } # end if failure
-  } else {
-    main::Error('FCM push message Error:' . $res->status_line);
   }
 
   _send_supplementary_msg($obj, $alarm);
