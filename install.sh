@@ -604,7 +604,7 @@ install_es_config() {
             print_success "config copied" || print_error "could not copy config"
     else
         echo "Upgrading existing ES config with any new keys..."
-        ${PYTHON} tools/config_upgrade_yaml.py -c "${TARGET_CONFIG}/zmeventnotification.yml" -e zmeventnotification.example.yml &&
+        ${PYTHON} tools/config_upgrade_yaml.py -c "${TARGET_CONFIG}/zmeventnotification.yml" -e zmeventnotification.example.yml -m managed_defaults.yml &&
             print_success "ES config upgraded" || print_warning "ES config upgrade failed"
     fi
     if [ ! -f "${TARGET_CONFIG}/secrets.yml" ]; then
