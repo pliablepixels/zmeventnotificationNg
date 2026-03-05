@@ -1,0 +1,12 @@
+# Managed defaults — keys that ES controls.
+# When a user's config value matches any old default listed here,
+# it is replaced with the current value from the example file.
+#
+# To add a new old default: append the previous value to the list
+# under the appropriate dotted key path.
+
+fcm.fcm_v1_key:
+  - "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5lcmF0b3IiOiJwbGlhYmxlIHBpeGVscyIsImlhdCI6MTcyNzQ0OTI1MCwiY2xpZW50Ijoiem1uaW5qYSJ9.2to4a_X0EQ8MtXyNzVCHfftn6zDn6QpwlSjVYicUq8I"
+
+fcm.fcm_v1_url:
+  - "https://us-central1-zoneminder-ninja.cloudfunctions.net/send_push"
