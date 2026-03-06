@@ -118,15 +118,34 @@ The ``objectconfig.yml`` file is organized into these sections:
   detection. Key settings:
 
   - ``enabled`` — ``yes``/``no`` (default ``no``)
-  - ``fcm_v1_url`` — URL of the FCM cloud function proxy
-  - ``fcm_v1_key`` — authorization key for the proxy (use a secret token like ``!FCM_V1_KEY``)
+  - ``fcm_v1_url`` — URL of the FCM cloud function proxy that relays messages to
+    Google's FCM service. This is the same proxy URL used by zmNg. If you are using
+    zmNg, you can find this URL in the zmNg Firebase project settings.
+  - ``fcm_v1_key`` — authorization key for the cloud function proxy. Use a secret
+    token reference (e.g. ``!FCM_V1_KEY``) and store the actual key in your
+    secrets file.
   - ``replace_push_messages`` — ``yes`` to collapse notifications per monitor
   - ``include_picture`` — ``yes`` to include event image URL in the notification
   - ``android_priority`` — FCM priority (``high`` or ``normal``)
   - ``android_ttl`` — optional TTL in seconds
 
-  Tokens are managed by client apps (e.g. zmNg) via the ZM ``/api/notifications.json``
-  REST endpoint. ``zm_detect`` respects per-token monitor filtering, throttle intervals,
+  **Setup steps:**
+
+  1. Ensure ZoneMinder is 1.39.2+ (adds the Notifications REST API).
+  2. Set ``push.enabled`` to ``yes`` in ``objectconfig.yml``.
+  3. Set ``push.fcm_v1_url`` to your FCM cloud function proxy URL.
+  4. Add the proxy authorization key to your secrets file::
+
+       # In /etc/zm/secrets.yml
+       secrets:
+         FCM_V1_KEY: "your-cloud-function-auth-key-here"
+
+  5. Reference it in ``objectconfig.yml`` as ``fcm_v1_key: "!FCM_V1_KEY"``.
+  6. Register device tokens: client apps (e.g. zmNg) register FCM tokens via
+     the ZM ``/api/notifications.json`` REST endpoint. Tokens are stored in ZM's
+     ``Notifications`` database table.
+
+  ``zm_detect`` respects per-token monitor filtering, throttle intervals,
   and push state. Invalid tokens are automatically cleaned up.
 
 - ``remote`` — remote ML server (``pyzm.serve``) gateway URL, mode, credentials, fallback
