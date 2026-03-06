@@ -81,11 +81,13 @@ animation:
 # Push notifications via FCM cloud function proxy
 # zm_detect reads registered tokens from ZM's Notifications table (via pyzm)
 # and sends push notifications directly after detection.
+# Requires ZM 1.39.2+ (Notifications API). Just set enabled to "yes" to use.
+# The URL and key below are the managed zmNg defaults (same as ES).
+# If you run your own cloud function, replace both values.
 push:
   enabled: "no"
-  # Cloud function proxy URL and authorization key
   fcm_v1_url: "https://us-central1-zmng-b7af6.cloudfunctions.net/send_push"
-  fcm_v1_key: "!FCM_V1_KEY"
+  fcm_v1_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5lcmF0b3IiOiJ6bW5nIiwiaWF0IjoxNzcyNTc5ODMyLCJjbGllbnQiOiJ6bW5nIn0.EVqWa1k_OeWlRk-IojL7rBwYKm_gLGobhoojhz-9fIg"
   # Replace previous push for same monitor (collapses notifications)
   replace_push_messages: "yes"
   # Include event image URL in push notification
