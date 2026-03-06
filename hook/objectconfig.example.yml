@@ -92,6 +92,12 @@ push:
   replace_push_messages: "yes"
   # Include event image URL in push notification
   include_picture: "yes"
+  # Picture URL template — use EVENTID as placeholder for the event ID.
+  # Uses same format as ES picture_url so you can point both at the same secret.
+  # fid can be objdetect (annotated frame), snapshot, etc.
+  picture_url: "!ZMES_PICTURE_URL"
+  picture_portal_username: "!ZM_USER"
+  picture_portal_password: "!ZM_PASSWORD"
   # Android notification priority
   android_priority: "high"
   # Android TTL in seconds (omit to use FCM default)

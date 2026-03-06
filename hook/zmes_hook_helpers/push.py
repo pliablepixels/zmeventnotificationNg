@@ -78,11 +78,11 @@ def send_push_notifications(zm, config, monitor_id, event_id, monitor_name, caus
 
         # Include picture URL if configured
         if push_cfg.get('include_picture') == 'yes':
-            portal = config.get('portal', '').rstrip('/')
-            if portal:
-                image_url = '{}/index.php?view=image&eid={}&fid=objdetect&width=600'.format(portal, event_id)
-                pic_user = push_cfg.get('picture_portal_username') or config.get('user', '')
-                pic_pass = push_cfg.get('picture_portal_password') or config.get('password', '')
+            pic_url = push_cfg.get('picture_url', '')
+            if pic_url:
+                image_url = pic_url.replace('EVENTID', str(event_id))
+                pic_user = push_cfg.get('picture_portal_username', '')
+                pic_pass = push_cfg.get('picture_portal_password', '')
                 if pic_user:
                     image_url += '&username={}'.format(pic_user)
                 if pic_pass:
@@ -90,7 +90,7 @@ def send_push_notifications(zm, config, monitor_id, event_id, monitor_name, caus
                 payload['image_url'] = image_url
                 logger.Debug(1, 'push: image_url={}'.format(image_url.split('&password=')[0]))
             else:
-                logger.Debug(1, 'push: include_picture=yes but no portal configured')
+                logger.Debug(1, 'push: include_picture=yes but no picture_url configured')
 
         # Platform-specific fields (proxy format, matching ES FCM.pm proxy mode)
         if notif.platform == 'android':
