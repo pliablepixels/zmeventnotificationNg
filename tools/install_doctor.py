@@ -218,6 +218,24 @@ def check_known_faces_empty(enabled_models, base_data_path):
     return None
 
 
+def check_push_picture(hook_cfg):
+    """Warn if push include_picture is enabled but picture_url is missing."""
+    push = hook_cfg.get("push", {}) if hook_cfg else {}
+    if not isinstance(push, dict):
+        return None
+    if str(push.get("enabled", "no")).lower() not in ("yes", "true", "1"):
+        return None
+    if str(push.get("include_picture", "no")).lower() not in ("yes", "true", "1"):
+        return None
+    if not push.get("picture_url"):
+        return (
+            "Push notifications have include_picture enabled but picture_url is not set.\n"
+            "    Add picture_url to the push section in objectconfig.yml.\n"
+            "    Example: picture_url: \"!ZMES_PICTURE_URL\""
+        )
+    return None
+
+
 def check_animation_deps(hook_cfg):
     """Warn if animation is enabled but gifsicle is not installed."""
     anim = hook_cfg.get("animation", {}) if hook_cfg else {}
@@ -476,6 +494,10 @@ def main():
         warnings.extend(check_model_files(enabled_models, base))
 
         w = check_known_faces_empty(enabled_models, base)
+        if w:
+            warnings.append(w)
+
+        w = check_push_picture(hook_cfg)
         if w:
             warnings.append(w)
 
