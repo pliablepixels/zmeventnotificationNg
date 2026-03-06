@@ -161,6 +161,14 @@ Push notifications can be delivered two ways:
   Configure the ``fcm`` section in ``zmeventnotification.yml``.
   See :doc:`install_path2`.
 
+.. note::
+
+   **Desktop clients (Windows/Linux/macOS):** FCM push notifications are not supported
+   on desktop platforms because Tauri's embedded webview does not support the Web Push API.
+   When using Direct mode (Path 1), zmNg desktop will poll the ZM API for new events at
+   regular intervals instead of receiving real-time push. Mobile clients (Android/iOS)
+   continue to receive real-time FCM push notifications in both modes.
+
 Concepts of Push and why it is only for zmNg/zmNinja
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 
