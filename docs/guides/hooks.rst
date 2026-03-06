@@ -141,6 +141,22 @@ Regardless of which path you use, you can always test detection manually::
    sudo -u www-data /var/lib/zmeventnotification/bin/zm_detect.py \
        --file /path/to/image.jpg --debug
 
+**Testing push notifications (Direct mode):**
+
+If you have ``push.enabled: "yes"`` in ``objectconfig.yml`` and tokens registered
+in the ``Notifications`` table, you can test push delivery from the command line.
+Use ``--file`` with ``--eventid`` and ``--monitorid`` to trigger push without a live
+event. The ``--fakeit`` flag overrides detection results so you don't need an image
+that actually matches your detection pattern::
+
+   sudo -u www-data /var/lib/zmeventnotification/bin/zm_detect.py \
+       --file /path/to/any/image.jpg --eventid <eid> --monitorid <mid> \
+       --debug --fakeit "person"
+
+Replace ``<eid>`` with a real event ID (so the notification links to a viewable event)
+and ``<mid>`` with the monitor ID. Registered devices should receive a push notification
+within a few seconds. Check the debug output for ``push:`` log lines to verify delivery.
+
 (``--config`` defaults to ``/etc/zm/objectconfig.yml`` and can be omitted if your config is at the standard path.)
 
 
