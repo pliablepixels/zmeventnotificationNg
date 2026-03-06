@@ -11,7 +11,7 @@ How do the hooks actually invoke object detection?
 
 Necessary Reading - Sample Config Files
 ----------------------------------------
-The sample configuration files, `zmeventnotification.example.yml <https://github.com/pliablepixels/zmeventnotification/blob/master/zmeventnotification.example.yml>`__ and `objectconfig.yml <https://github.com/pliablepixels/zmeventnotification/blob/master/hook/objectconfig.yml>`__ come with extensive commentary about each attribute and what they do. Please go through them to get a better understanding. Note that most of the configuration attributes in ``zmeventnotification.yml`` are not related to machine learning, except for the ``hook`` section.
+The sample configuration files, `zmeventnotification.example.yml <https://github.com/pliablepixels/zmeventnotification/blob/master/zmeventnotification.example.yml>`__ and `objectconfig.example.yml <https://github.com/pliablepixels/zmeventnotification/blob/master/hook/objectconfig.example.yml>`__ come with extensive commentary about each attribute and what they do. Please go through them to get a better understanding. Note that most of the configuration attributes in ``zmeventnotification.yml`` are not related to machine learning, except for the ``hook`` section.
 
 .. _hooks-debug-issues:
 

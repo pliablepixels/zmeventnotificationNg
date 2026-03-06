@@ -1,12 +1,23 @@
-# Managed defaults — keys that ES controls.
-# When a user's config value matches any old default listed here,
-# it is replaced with the current value from the example file.
+# Managed defaults — values that are managed by install.sh.
+# Organized by config file. When a user's value matches any old value
+# listed here, it is replaced with the current value from the
+# corresponding example file.
 #
-# To add a new old default: append the previous value to the list
-# under the appropriate dotted key path.
+# To rotate a key:
+#   1. Add the current value to the old-values list below
+#   2. Update the example file with the new value
+#   3. Run install.sh — users get the new value automatically
+#
+# Sections correspond to the -s/--section flag in config_upgrade_yaml.py.
 
-fcm.fcm_v1_key:
-  - "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5lcmF0b3IiOiJwbGlhYmxlIHBpeGVscyIsImlhdCI6MTcyNzQ0OTI1MCwiY2xpZW50Ijoiem1uaW5qYSJ9.2to4a_X0EQ8MtXyNzVCHfftn6zDn6QpwlSjVYicUq8I"
+zmeventnotification:
+  fcm.fcm_v1_key:
+    - "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5lcmF0b3IiOiJwbGlhYmxlIHBpeGVscyIsImlhdCI6MTcyNzQ0OTI1MCwiY2xpZW50Ijoiem1uaW5qYSJ9.2to4a_X0EQ8MtXyNzVCHfftn6zDn6QpwlSjVYicUq8I"
+  fcm.fcm_v1_url:
+    - "https://us-central1-zoneminder-ninja.cloudfunctions.net/send_push"
 
-fcm.fcm_v1_url:
-  - "https://us-central1-zoneminder-ninja.cloudfunctions.net/send_push"
+objectconfig:
+  push.fcm_v1_key:
+    - "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnZW5lcmF0b3IiOiJwbGlhYmxlIHBpeGVscyIsImlhdCI6MTcyNzQ0OTI1MCwiY2xpZW50Ijoiem1uaW5qYSJ9.2to4a_X0EQ8MtXyNzVCHfftn6zDn6QpwlSjVYicUq8I"
+  push.fcm_v1_url:
+    - "https://us-central1-zoneminder-ninja.cloudfunctions.net/send_push"

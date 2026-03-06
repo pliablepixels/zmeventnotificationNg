@@ -5,9 +5,9 @@ Existing user values are never overwritten. Only keys present in the example
 but missing from the user config are added (with their default values).
 
 Usage:
-    python3 tools/config_upgrade_yaml.py -c /etc/zm/zmeventnotification.yml -e zmeventnotification.example.yml
+    python3 tools/config_upgrade_yaml.py -c /etc/zm/zmeventnotification.yml -e zmeventnotification.example.yml -m managed_defaults.yml -s zmeventnotification
+    python3 tools/config_upgrade_yaml.py -c /etc/zm/objectconfig.yml -e hook/objectconfig.example.yml -m managed_defaults.yml -s objectconfig
     python3 tools/config_upgrade_yaml.py -c /etc/zm/secrets.yml -e secrets.example.yml
-    python3 tools/config_upgrade_yaml.py -c /etc/zm/objectconfig.yml -e hook/objectconfig.yml
 """
 
 import argparse
@@ -93,6 +93,8 @@ def main():
                         help='Show what would be added without writing anything')
     parser.add_argument('-m', '--managed-defaults',
                         help='Path to managed defaults YAML (keys to force-update from old defaults)')
+    parser.add_argument('-s', '--section',
+                        help='Section within managed defaults file to use (e.g. zmeventnotification, objectconfig)')
     args = parser.parse_args()
 
     with open(args.example) as f:
@@ -112,7 +114,14 @@ def main():
     managed_updated = []
     if args.managed_defaults:
         with open(args.managed_defaults) as f:
-            managed = yaml.safe_load(f) or {}
+            managed_all = yaml.safe_load(f) or {}
+        if args.section:
+            managed = managed_all.get(args.section, {})
+            if not managed:
+                print("Note: no managed defaults found for section '{}'".format(args.section))
+        else:
+            # Legacy: flat format without sections
+            managed = managed_all
         managed_updated = apply_managed_defaults(user, example, managed)
 
     if not added and not managed_updated:

@@ -604,7 +604,7 @@ install_es_config() {
             print_success "config copied" || print_error "could not copy config"
     else
         echo "Upgrading existing ES config with any new keys..."
-        ${PYTHON} tools/config_upgrade_yaml.py -c "${TARGET_CONFIG}/zmeventnotification.yml" -e zmeventnotification.example.yml -m managed_defaults.yml &&
+        ${PYTHON} tools/config_upgrade_yaml.py -c "${TARGET_CONFIG}/zmeventnotification.yml" -e zmeventnotification.example.yml -m managed_defaults.yml -s zmeventnotification &&
             print_success "ES config upgraded" || print_warning "ES config upgrade failed"
     fi
     if [ ! -f "${TARGET_CONFIG}/secrets.yml" ]; then
@@ -684,11 +684,11 @@ install_hook_config() {
 
     if [ ! -f "${TARGET_CONFIG}/objectconfig.yml" ]; then
         echo 'No existing hook config found, installing example as active config'
-        install -o "${WEB_OWNER}" -g "${WEB_GROUP}" -m 644 hook/objectconfig.yml "${TARGET_CONFIG}" &&
-            print_success "config copied" || print_error "could not copy config"
+        install -o "${WEB_OWNER}" -g "${WEB_GROUP}" -m 644 hook/objectconfig.example.yml "${TARGET_CONFIG}/objectconfig.yml" &&
+            print_success "hook config copied" || print_error "could not copy hook config"
     else
-        echo "Upgrading existing hook config with any new keys..."
-        ${PYTHON} tools/config_upgrade_yaml.py -c "${TARGET_CONFIG}/objectconfig.yml" -e hook/objectconfig.yml &&
+        echo "Upgrading existing hook config with any new keys and managed defaults..."
+        ${PYTHON} tools/config_upgrade_yaml.py -c "${TARGET_CONFIG}/objectconfig.yml" -e hook/objectconfig.example.yml -m managed_defaults.yml -s objectconfig &&
             print_success "hook config upgraded" || print_warning "hook config upgrade failed"
     fi
 
