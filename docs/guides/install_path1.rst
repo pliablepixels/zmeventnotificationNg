@@ -4,7 +4,9 @@ Path 1: Detection Only (no ES)
 Use ZoneMinder's ``EventStartCommand`` to run ML detection directly — no Event Server needed.
 Requires **ZM 1.38.1 or above**.
 
-If you also want push notifications, WebSockets, or MQTT, see :doc:`install_path2`.
+Push notifications are supported directly via ``zm_detect`` (see the ``push`` section
+in ``objectconfig.yml`` and :ref:`push_config`). If you also want WebSockets or MQTT,
+see :doc:`install_path2`.
 
 .. important::
 

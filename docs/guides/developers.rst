@@ -152,8 +152,14 @@ Push Notifications (for both iOS and Android)
 
    While zmNg supports push notifications, it is not yet available on the App Store or Play Store and therefore FCM push will not work with zmNg as of today. Use zmNinja for push notifications until zmNg is published.
 
-To make Push Notifications work, please make sure you read the
-:doc:`install_path2` guide and ensure FCM is configured in ``zmeventnotification.yml``.
+Push notifications can be delivered two ways:
+
+- **Path 1 (Direct):** ``zm_detect`` sends push notifications directly after detection.
+  Configure the ``push`` section in ``objectconfig.yml``. Requires ZM 1.39.2+.
+  See :ref:`push_config`.
+- **Path 2 (ES):** The Event Server sends push notifications via its FCM integration.
+  Configure the ``fcm`` section in ``zmeventnotification.yml``.
+  See :doc:`install_path2`.
 
 Concepts of Push and why it is only for zmNg/zmNinja
 ++++++++++++++++++++++++++++++++++++++++++++++++++++

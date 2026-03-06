@@ -5,8 +5,8 @@ Summary
 +++++++++
 This guide explains the detection and notification flow for ZoneMinder's ML ecosystem. There are two paths:
 
-* **Path 1 (Detection only)** — ZoneMinder calls ``zm_detect.py`` directly via ``EventStartCommand``. No daemon, no notifications.
-* **Path 2 (Full Event Server)** — The Event Notification Server (ES) monitors shared memory for new events, invokes ML hooks, and sends push notifications via FCM, WebSockets, MQTT, and 3rd-party APIs.
+* **Path 1 (Detection + optional push)** — ZoneMinder calls ``zm_detect.py`` directly via ``EventStartCommand``. No daemon needed. Optionally sends FCM push notifications directly (requires ZM 1.39.2+).
+* **Path 2 (Full Event Server)** — The Event Notification Server (ES) monitors shared memory for new events, invokes ML hooks, and sends notifications via FCM push, WebSockets, MQTT, and 3rd-party APIs.
 
 Both paths use the same ML pipeline (``zm_detect.py`` + ``objectconfig.yml``). The difference is what triggers detection and what happens with the results.
 
