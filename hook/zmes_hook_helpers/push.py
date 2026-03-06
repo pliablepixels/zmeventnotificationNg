@@ -125,7 +125,7 @@ def send_push_notifications(zm, config, monitor_id, event_id, monitor_name, caus
             else:
                 body_text = resp.text
                 logger.Error('push: FCM proxy error for token ...{}: {}'.format(token_suffix, body_text))
-                if 'not a valid FCM' in body_text or 'entity was not found' in body_text:
+                if 'not a valid FCM' in body_text or 'entity was not found' in body_text or 'NotRegistered' in body_text:
                     logger.Debug(1, 'push: removing invalid token ...{}'.format(token_suffix))
                     try:
                         notif.delete()
