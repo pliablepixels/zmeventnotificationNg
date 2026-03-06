@@ -551,9 +551,9 @@ install_hook() {
     ${PY_SUDO} ${PIP} uninstall -y zmes-hooks ${PIP_COMPAT} >/dev/null 2>&1
     ${PY_SUDO} ${PIP} uninstall -y zmes_hook_helpers ${PIP_COMPAT} >/dev/null 2>&1
 
-    ZM_DETECT_VERSION=`./hook/zm_detect.py --bareversion`
+    ZM_DETECT_VERSION=$(cat VERSION | tr -d '[:space:]')
     if [ "$ZM_DETECT_VERSION" == "" ]; then
-      echo "Failed to detect hooks version."
+      echo "Failed to read hooks version from VERSION file."
     else
       echo "__version__ = \"${ZM_DETECT_VERSION}\"" > hook/zmes_hook_helpers/__init__.py
       echo "VERSION=__version__" >> hook/zmes_hook_helpers/__init__.py
