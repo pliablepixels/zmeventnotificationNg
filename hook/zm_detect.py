@@ -95,6 +95,14 @@ def main_handler():
         ml_options['general']['ml_timeout'] = g.config.get('ml_timeout', 60)
         ml_options['general']['ml_gateway_mode'] = g.config.get('ml_gateway_mode', 'image')
 
+    # Inject monitor_id for per-monitor past detection scoping
+    mid = args.get('monitorid')
+    if mid:
+        ml_options.setdefault('general', {})['monitor_id'] = str(mid)
+
+    # Inject image_path from config so past-detection files land in the right place
+    ml_options.setdefault('general', {})['image_path'] = g.config.get('image_path', '/var/lib/zmeventnotification/images')
+
     wait_secs = int(g.config.get('wait', 0))
     if wait_secs > 0:
         g.logger.Debug(1, 'Waiting {} seconds before detection...'.format(wait_secs))
