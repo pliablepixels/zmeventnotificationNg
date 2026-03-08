@@ -120,10 +120,66 @@ The ``objectconfig.yml`` file is organized into these sections:
 - ``monitors`` — per-monitor overrides for ``wait``, ``ml_sequence``,
   ``stream_sequence``, and ``zones`` (with ``detection_pattern`` and ``ignore_pattern``)
 
+.. _push_config:
+
+Direct Push Notifications (``push`` section)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``push`` section in ``objectconfig.yml`` configures direct FCM push notifications
+from ``zm_detect`` — **Path 1 only**, requires ZM 1.39.2+. ``zm_detect`` reads registered
+tokens from ZM's ``Notifications`` table via pyzm and sends push notifications through an
+FCM cloud function proxy after detection.
+
+**Key settings:**
+
+- ``enabled`` — ``yes``/``no`` (default ``no``)
+- ``fcm_v1_url`` — URL of the FCM cloud function proxy. Pre-configured with the
+  managed zmNg default (same proxy used by the ES). Replace only if you run your
+  own cloud function.
+- ``fcm_v1_key`` — authorization key for the cloud function proxy. Pre-configured
+  with the managed zmNg default. Replace only if you run your own cloud function.
+- ``replace_push_messages`` — ``yes`` to collapse notifications per monitor
+- ``include_picture`` — ``yes`` to include event image URL in the notification
+- ``android_priority`` — FCM priority (``high`` or ``normal``)
+- ``android_ttl`` — optional TTL in seconds
+
+**Setup steps:**
+
+1. Ensure ZoneMinder is 1.39.2+ (adds the Notifications REST API).
+2. Set ``push.enabled`` to ``yes`` in ``objectconfig.yml``.
+   The cloud function URL and key are pre-configured with the managed zmNg
+   defaults (same as the ES) — no additional configuration needed.
+3. Register device tokens: client apps (e.g. zmNg) register FCM tokens via
+   the ZM ``/api/notifications.json`` REST endpoint. Tokens are stored in ZM's
+   ``Notifications`` database table.
+
+If you run your own FCM cloud function proxy, replace ``fcm_v1_url`` and
+``fcm_v1_key`` with your own values.
+
+``zm_detect`` respects per-token monitor filtering, throttle intervals,
+and push state. Invalid tokens are automatically cleaned up.
+
+Configuration Tools
+---------------------
+
+Several tools are provided in the ``tools/`` directory of the source tree:
+
+- ``tools/install_doctor.py`` — post-install diagnostic checker. Validates GPU/CUDA availability,
+  OpenCV version, model file paths, file permissions, SSL certificates, and Perl/Python dependencies.
+  Run automatically by ``install.sh`` at the end of installation. See :doc:`install_path1` for usage.
+- ``tools/config_migrate_yaml.py`` — migrates ``objectconfig.ini`` to ``objectconfig.yml``
+- ``tools/es_config_migrate_yaml.py`` — migrates ``zmeventnotification.ini`` and ``secrets.ini``
+  to their YAML equivalents
+- ``tools/config_upgrade_yaml.py`` — merges new keys from example configs into your existing YAML
+  config (used during upgrades to add new options without overwriting your settings)
+- ``tools/config_edit.py`` — programmatic config editor
+
+See :doc:`breaking` for details on the INI-to-YAML migration.
+
 .. _hook_config_reference:
 
 Complete Hook Config Reference
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 Every key accepted by ``objectconfig.yml``, grouped by YAML section.
 Keys not listed here will be logged as unrecognized and ignored.
@@ -133,7 +189,10 @@ Keys not listed here will be logged as unrecognized and ignored.
    Several keys have been moved or removed in 7.x. See :doc:`breaking` for details
    on what changed and migration steps.
 
-**general** — app-level settings consumed by ``zm_detect.py`` / ``utils.py``:
+``general`` — app-level settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Consumed by ``zm_detect.py`` / ``utils.py``:
 
 .. list-table::
    :header-rows: 1
@@ -200,7 +259,10 @@ Keys not listed here will be logged as unrecognized and ignored.
      - ``no``
      - When ``yes``, import only ZM zones that triggered the alarm (forces ``import_zm_zones: yes``)
 
-**remote** — remote ML gateway settings (forwarded to pyzm ``Detector``):
+``remote`` — remote ML gateway settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Forwarded to pyzm ``Detector``:
 
 .. list-table::
    :header-rows: 1
@@ -228,7 +290,10 @@ Keys not listed here will be logged as unrecognized and ignored.
      - ``no``
      - Fall back to local detection if remote gateway fails
 
-**ml.stream_sequence** — frame extraction settings (read by pyzm ``StreamConfig``):
+``ml.stream_sequence`` — frame extraction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Read by pyzm ``StreamConfig``:
 
 .. list-table::
    :header-rows: 1
@@ -271,7 +336,10 @@ Keys not listed here will be logged as unrecognized and ignored.
      - ``yes``
      - Convert snapshot frame to its actual frame ID
 
-**ml.ml_sequence.general** — detection pipeline settings (read by pyzm ``DetectorConfig``):
+``ml.ml_sequence.general`` — detection pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Read by pyzm ``DetectorConfig``:
 
 .. list-table::
    :header-rows: 1
@@ -299,7 +367,7 @@ Keys not listed here will be logged as unrecognized and ignored.
      - ``5%``
      - Area difference threshold for past-detection matching
    * - ``<label>_past_det_max_diff_area``
-     - —
+     - ---
      - Per-label override (e.g. ``car_past_det_max_diff_area: 10%``)
    * - ``ignore_past_detection_labels``
      - ``[]``
@@ -314,74 +382,17 @@ Keys not listed here will be logged as unrecognized and ignored.
      - ``[]``
      - Groups of labels to treat as equivalent (e.g. ``[['car','bus','truck']]``)
 
-**ml.ml_sequence.<type>** — per-type settings (``object``, ``face``, ``alpr``, ``audio``):
+``ml.ml_sequence.<type>`` — per-type model settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each type has a ``general`` section for overrides and a ``sequence`` list of model
-configurations. See :doc:`hooks` for details on model-specific keys (``object_weights``,
-``face_detection_framework``, ``alpr_service``, etc.).
+Each type (``object``, ``face``, ``alpr``, ``audio``) has a ``general`` section for
+overrides and a ``sequence`` list of model configurations. See :doc:`hooks` for details
+on model-specific keys (``object_weights``, ``face_detection_framework``,
+``alpr_service``, etc.).
 
-**push** — direct FCM push notifications:
-
-See :ref:`push_config` below.
-
-**monitors** — per-monitor overrides:
+``monitors`` — per-monitor overrides
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Any key from the sections above can be overridden per monitor. Dict values
 (``ml_sequence``, ``stream_sequence``) are deep-merged; scalar values are replaced.
 See :doc:`hooks` for zone configuration (``detection_pattern``, ``ignore_pattern``).
-
-.. _push_config:
-
-Direct Push Notifications (``push`` section)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The ``push`` section in ``objectconfig.yml`` configures direct FCM push notifications
-from ``zm_detect`` — **Path 1 only**, requires ZM 1.39.2+. ``zm_detect`` reads registered
-tokens from ZM's ``Notifications`` table via pyzm and sends push notifications through an
-FCM cloud function proxy after detection.
-
-**Key settings:**
-
-- ``enabled`` — ``yes``/``no`` (default ``no``)
-- ``fcm_v1_url`` — URL of the FCM cloud function proxy. Pre-configured with the
-  managed zmNg default (same proxy used by the ES). Replace only if you run your
-  own cloud function.
-- ``fcm_v1_key`` — authorization key for the cloud function proxy. Pre-configured
-  with the managed zmNg default. Replace only if you run your own cloud function.
-- ``replace_push_messages`` — ``yes`` to collapse notifications per monitor
-- ``include_picture`` — ``yes`` to include event image URL in the notification
-- ``android_priority`` — FCM priority (``high`` or ``normal``)
-- ``android_ttl`` — optional TTL in seconds
-
-**Setup steps:**
-
-1. Ensure ZoneMinder is 1.39.2+ (adds the Notifications REST API).
-2. Set ``push.enabled`` to ``yes`` in ``objectconfig.yml``.
-   The cloud function URL and key are pre-configured with the managed zmNg
-   defaults (same as the ES) — no additional configuration needed.
-3. Register device tokens: client apps (e.g. zmNg) register FCM tokens via
-   the ZM ``/api/notifications.json`` REST endpoint. Tokens are stored in ZM's
-   ``Notifications`` database table.
-
-If you run your own FCM cloud function proxy, replace ``fcm_v1_url`` and
-``fcm_v1_key`` with your own values.
-
-``zm_detect`` respects per-token monitor filtering, throttle intervals,
-and push state. Invalid tokens are automatically cleaned up.
-
-Configuration Tools
----------------------
-
-Several tools are provided in the ``tools/`` directory of the source tree:
-
-- ``tools/install_doctor.py`` — post-install diagnostic checker. Validates GPU/CUDA availability,
-  OpenCV version, model file paths, file permissions, SSL certificates, and Perl/Python dependencies.
-  Run automatically by ``install.sh`` at the end of installation. See :doc:`install_path1` for usage.
-- ``tools/config_migrate_yaml.py`` — migrates ``objectconfig.ini`` to ``objectconfig.yml``
-- ``tools/es_config_migrate_yaml.py`` — migrates ``zmeventnotification.ini`` and ``secrets.ini``
-  to their YAML equivalents
-- ``tools/config_upgrade_yaml.py`` — merges new keys from example configs into your existing YAML
-  config (used during upgrades to add new options without overwriting your settings)
-- ``tools/config_edit.py`` — programmatic config editor
-
-See :doc:`breaking` for details on the INI-to-YAML migration.

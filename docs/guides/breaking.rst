@@ -121,34 +121,34 @@ equivalents. The old files will be renamed with a ``.migrated`` suffix.
 
 **Key changes:**
 
-- **YAML format**: All config files now use YAML syntax instead of INI sections/key-value pairs.
+- **YAML format** — All config files now use YAML syntax instead of INI sections/key-value pairs.
   For example, ``[general]`` sections become ``general:`` with indented keys beneath them.
-- **Secrets file**: Now ``/etc/zm/secrets.yml``. The ``!TOKEN_NAME`` syntax for referencing secrets
+- **Secrets file** — Now ``/etc/zm/secrets.yml``. The ``!TOKEN_NAME`` syntax for referencing secrets
   remains the same. The secrets file itself uses a top-level ``secrets:`` key with tokens underneath.
-- **``{{}}`` templating removed**: ``objectconfig.yml`` no longer supports ``{{variable}}`` template
+- **Templating removed** — ``objectconfig.yml`` no longer supports ``{{variable}}`` template
   substitution. All values in ``ml_sequence`` and ``stream_sequence`` are specified directly/inline.
   The ``use_sequence`` flag no longer exists — sequences are always used.
-- **``common_params.py`` removed**: The entire parameter substitution engine has been removed.
-  ``${base_data_path}`` is the only substitution still supported (for path expansion).
-- **Default model changed to YOLO ONNX**: YOLOv3 defaults are now disabled. The default enabled
+- **Parameter substitution removed** — ``common_params.py`` and its substitution engine have been
+  removed. ``${base_data_path}`` is the only substitution still supported (for path expansion).
+- **Default model changed to YOLO ONNX** — YOLOv3 defaults are now disabled. The default enabled
   model is ``yolo11n`` using ONNX format via OpenCV DNN. This requires **OpenCV 4.13+**.
   Direct Ultralytics/PyTorch support has been removed in favor of ONNX via OpenCV DNN.
-- **``Config::IniFiles`` Perl module no longer needed**: The ES now uses ``YAML::XS`` (via the
+- **Perl config module changed** — The ES now uses ``YAML::XS`` (via the
   ``libyaml-libyaml-perl`` package on Debian/Ubuntu) instead of ``Config::IniFiles``.
-- **``es_rules`` is now YAML**: The rules file previously used JSON format. It is now YAML.
-  The ``install.sh`` script will auto-convert ``es_rules.json`` to ``es_rules.yml``.
-- **New migration tools**: ``tools/config_upgrade.py`` has been replaced by:
+- **Rules file is now YAML** — ``es_rules.json`` has been replaced by ``es_rules.yml``.
+  The ``install.sh`` script will auto-convert the old JSON file.
+- **New migration tools** — ``tools/config_upgrade.py`` has been replaced by:
 
   - ``tools/config_upgrade_yaml.py`` — upgrades an existing YAML config with new keys from the example
   - ``tools/es_config_migrate_yaml.py`` — migrates ES INI config and secrets to YAML
   - ``tools/config_migrate_yaml.py`` — migrates ``objectconfig.ini`` to YAML
 
-- **New feature: ``tag_detected_objects``**: When set to ``yes`` in the ``hook`` section of
+- **New feature: tag_detected_objects** — When set to ``yes`` in the ``hook`` section of
   ``zmeventnotification.yml``, detected object labels (e.g. person, cat) will be written as Tags
   into ZoneMinder's database. Requires ZM >= 1.37.44.
 
-- **``INSTALL_YOLOV11`` / ``INSTALL_YOLOV26`` install flags**: ``install.sh`` now defaults to
-  downloading both YOLOv11 and YOLOv26 ONNX models (both default to ``yes``).
+- **Install flags changed** — ``INSTALL_YOLOV11`` / ``INSTALL_YOLOV26`` now default to ``yes``.
+  ``install.sh`` downloads both YOLOv11 and YOLOv26 ONNX models by default.
   YOLOv3 defaults are now ``no``. Set either flag to ``no`` to skip.
 
 **Upgrading:**
