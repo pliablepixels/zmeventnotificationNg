@@ -112,8 +112,9 @@ The ``objectconfig.yml`` file is organized into these sections:
 - ``ml`` — the detection pipeline:
 
   - ``ml.stream_sequence`` — frame selection: ``frame_set``, ``resize``, retry settings
-  - ``ml.ml_sequence`` — model pipeline: ``model_sequence`` ordering, ``frame_strategy``,
-    ``disable_locks``, ``match_past_detections``, per-type ``general`` + ``sequence`` lists
+  - ``ml.ml_sequence.general`` — pipeline-wide settings: ``model_sequence``, ``frame_strategy``,
+    ``disable_locks``, ``match_past_detections``, ``max_detection_size``, ``aliases``
+  - ``ml.ml_sequence.<type>`` — per-type ``general`` + ``sequence`` lists for object, face, alpr, audio
     (see :doc:`hooks` for full details)
 
 - ``monitors`` — per-monitor overrides for ``wait``, ``ml_sequence``,

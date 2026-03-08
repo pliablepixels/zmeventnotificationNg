@@ -419,7 +419,7 @@ When using model chaining, these attributes control how aggressively the pipelin
      Useful when you have multiple models that detect different classes (e.g. a base YOLO model and a
      fine-tuned model) and want to combine their results
 
-``frame_strategy`` is part of ``stream_sequence`` with the following possible values:
+``frame_strategy`` is part of ``ml_sequence.general`` with the following possible values:
 
    - 'most_models': Match the frame that has matched most models (does not include same model alternatives) (Default)
    - 'first': Stop at first match
@@ -453,20 +453,18 @@ At a high level, this is how it is structured:
    ml:
      stream_sequence:
        frame_set: "snapshot,alarm"
-       frame_strategy: most_models
+       resize: 800
        contig_frames_before_error: 5
        max_attempts: 3
        sleep_between_attempts: 4
-       resize: 800
 
 **Explanation:**
 
 - ``frame_set`` defines the set of frames it should use for analysis (comma separated)
-- ``frame_strategy`` defines what it should do when a match has been found
-- ``contig_frames_before_error``: How many contiguous errors should occur before giving up on the series of frames 
+- ``resize``: resize frames to this width in pixels before detection. Omit to use original resolution.
+- ``contig_frames_before_error``: How many contiguous errors should occur before giving up on the series of frames
 - ``max_attempts``: How many times to try each frame (before counting it as an error in the ``contig_frames_before_error`` count)
-- ``sleep_between_attempts``: When an error is encountered, how many seconds to wait for retrying 
-- ``resize``: what size to resize frames too (useful if you want to speed things up and/or are running out of memory)
+- ``sleep_between_attempts``: When an error is encountered, how many seconds to wait for retrying
 
 **A proper example:**
 
@@ -489,7 +487,7 @@ The combined logic works as follows:
    for each frame in stream sequence:
       perform stream_sequence actions on each frame
       for each model_sequence in ml_options:
-      if detected, use frame_strategy (in stream_sequence) to decide if we should try other model sequences
+      if detected, use frame_strategy (in ml_sequence.general) to decide if we should try other model sequences
          perform general actions:
             for each model_configuration in ml_options.sequence:
                detect()
@@ -611,12 +609,11 @@ Here is a part of my config, for example:
            general:
              pattern: "(person|monitor_deck)"
        stream_sequence:
-         frame_strategy: most_models
          frame_set: "alarm"
+         resize: 800
          contig_frames_before_error: 5
          max_attempts: 3
          sleep_between_attempts: 4
-         resize: 800
 
 About specific detection types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
