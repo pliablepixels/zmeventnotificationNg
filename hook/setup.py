@@ -13,9 +13,8 @@ AUTHOR = 'Pliable Pixels'
 LICENSE = 'GPL'
 INSTALL_REQUIRES = [
     'numpy', 'requests', 'Shapely', 'imutils',
-    'pyzm>=2.3.1', 'scikit-learn', 'future', 'imageio',
-    'imageio-ffmpeg','pygifsicle', 'Pillow', 'configupdater',
-    'PyYAML'
+    'pyzm>=2.3.2', 'scikit-learn', 'Pillow',
+    'PyYAML', 'configupdater'
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))
