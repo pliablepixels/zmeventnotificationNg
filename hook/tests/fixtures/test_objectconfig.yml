@@ -12,15 +12,8 @@ general:
   show_percent: "no"
   import_zm_zones: "no"
   only_triggered_zm_zones: "no"
-  cpu_max_processes: 3
-  gpu_max_processes: 1
-  tpu_max_processes: 1
   wait: 0
-
-animation:
-  create_animation: "no"
-  animation_types: mp4
-  animation_width: 400
+  poly_thickness: 2
 
 remote:
   ml_gateway:
@@ -45,7 +38,7 @@ monitors:
         coords: "0,0 640,0 640,480 0,480"
         detection_pattern: "person"
     import_zm_zones: "no"
-    cpu_max_processes: 2
+    poly_thickness: 4
   2:
     zones:
       driveway:

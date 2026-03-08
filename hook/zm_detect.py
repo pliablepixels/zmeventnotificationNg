@@ -78,8 +78,6 @@ def main_handler():
         if mid:
             utils.import_zm_zones(mid, args.get('reason'), zm)
 
-    stream_options['api'], stream_options['polygons'] = zm.api, g.polygons
-    g.config['stream_sequence'] = stream_options
     stream = (args.get('eventid') or args.get('file') or '').strip()
 
     # --- Detection ---
@@ -165,6 +163,7 @@ def main_handler():
         draw_errors = g.config['write_debug_image'] == 'yes'
         debug_image = result.annotate(
             polygons=matched_data.get('polygons', []),
+            poly_color=ast.literal_eval(g.config['poly_color']) if isinstance(g.config.get('poly_color'), str) else g.config.get('poly_color', (255, 255, 255)),
             poly_thickness=g.config['poly_thickness'],
             write_conf=(g.config['show_percent'] == 'yes'),
             draw_error_boxes=draw_errors,
@@ -216,12 +215,6 @@ def main_handler():
         except Exception as e:
             g.logger.Error('Push notification error: {}'.format(e))
 
-    # --- Animation ---
-    if g.config.get('create_animation') == 'yes' and args.get('eventid'):
-        try:
-            import zmes_hook_helpers.image_manip as img_manip
-            img_manip.createAnimation(matched_data['frame_id'], args['eventid'], args.get('eventpath','') + '/objdetect', g.config['animation_types'])
-        except Exception as e: g.logger.Error('Animation error: {}'.format(e))
 
 
 if __name__ == '__main__':

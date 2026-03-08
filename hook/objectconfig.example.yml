@@ -10,18 +10,6 @@
 # general.base_data_path wherever it appears.
 
 general:
-  version: "2.0"
-
-  # Limit concurrent detection processes per processor type.
-  cpu_max_processes: 3
-  tpu_max_processes: 1
-  gpu_max_processes: 1
-
-  # Seconds to wait for processor lock before erroring out.
-  cpu_max_lock_wait: 100
-  tpu_max_lock_wait: 100
-  gpu_max_lock_wait: 100
-
   # Override pyzm settings (e.g. database host, debug level).
   # If ZM uses a UNIX socket (ZM_DB_HOST=localhost:/var/run/mysqld/mysqld.sock),
   # set dbhost: "localhost:3306" here.
@@ -44,7 +32,6 @@ general:
   base_data_path: /var/lib/zmeventnotification
 
   # Image output settings
-  delete_after_analyze: "yes"
   write_debug_image: "no"
   write_image_to_zm: "yes"
   show_percent: "yes"
@@ -59,16 +46,6 @@ general:
   # ZoneMinder zone import
   #import_zm_zones: "yes"
   only_triggered_zm_zones: "no"
-
-
-# Push notification animations
-animation:
-  create_animation: "no"
-  animation_types: "mp4,gif"
-  animation_width: 640
-  animation_retry_sleep: 15
-  animation_max_tries: 4
-  fast_gif: "no"
 
 
 # Push notifications via FCM cloud function proxy
@@ -117,12 +94,8 @@ remote:
 
 
 ml:
-  disable_locks: "no"
-
   # Frame selection strategy
-  # frame_strategy options: most_models (default), first, first_new, most, most_unique
   stream_sequence:
-    frame_strategy: most_models
     frame_set: "snapshot,alarm"
     contig_frames_before_error: 5
     max_attempts: 3
@@ -133,6 +106,9 @@ ml:
   ml_sequence:
     general:
       model_sequence: "object,face,alpr"
+      # frame_strategy options: most_models (default), first, first_new, most, most_unique
+      frame_strategy: most_models
+      disable_locks: "no"
       # Deduplicate static objects across detections
       match_past_detections: "no"
       past_det_max_diff_area: "5%"
@@ -251,7 +227,8 @@ ml:
 monitors:
   999:
     wait: 5
-    resize: "no"
+    stream_sequence:
+      resize: "no"
 
     # Override ml_sequence for this monitor (deep-merged with global ml_sequence)
     ml_sequence:

@@ -91,36 +91,18 @@ config_vals = {
             'default': '2',
             'type': 'int'
         },
-
-        # animation for push
-
-        'create_animation':{
-            'section': 'animation',
+        'poly_color':{
+            'section': 'general',
+            'default': '(255,255,255)',
+            'type': 'string'
+        },
+        'tag_detected_objects':{
+            'section': 'general',
             'default': 'no',
             'type': 'string'
         },
-        'animation_types':{
-            'section': 'animation',
-            'default': 'mp4',
-            'type': 'string'
-        },
-        'animation_width':{
-            'section': 'animation',
-            'default': '400',
-            'type': 'int'
-        },
-        'animation_retry_sleep':{
-            'section': 'animation',
-            'default': '15',
-            'type': 'int'
-        },
-        'animation_max_tries':{
-            'section': 'animation',
-            'default': '3',
-            'type': 'int'
-        },
-        'fast_gif':{
-            'section': 'animation',
+        'show_models':{
+            'section': 'general',
             'default': 'no',
             'type': 'string'
         },

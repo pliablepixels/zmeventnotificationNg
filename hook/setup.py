@@ -43,7 +43,6 @@ setup(name=NAME,
       py_modules=[
           'zmes_hook_helpers.common_params', 
           'zmes_hook_helpers.log',
-          'zmes_hook_helpers.image_manip',
           'zmes_hook_helpers.apigw',
           'zmes_hook_helpers.push',
           'zmes_hook_helpers.utils'

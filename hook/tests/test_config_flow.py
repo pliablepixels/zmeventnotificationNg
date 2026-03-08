@@ -106,9 +106,9 @@ class TestMonitorOverrides:
         assert driveway["ignore_pattern"] == "(car|truck)"
 
     def test_scalar_override(self, patched_config, ctx):
-        """Monitor override of scalar config: cpu_max_processes 2 overrides global 3."""
+        """Monitor override of scalar config: poly_thickness 4 overrides global 2."""
         process_config({"config": patched_config, "monitorid": "1"}, ctx)
-        assert g.config["cpu_max_processes"] == 2
+        assert g.config["poly_thickness"] == 4
 
     def test_only_triggered_zm_zones_skips_polygons(self, tmp_path, ctx):
         """only_triggered_zm_zones=yes (global) skips zone polygons and sets import_zm_zones."""
@@ -174,8 +174,8 @@ class TestMonitorOverrides:
         """No monitorid: no zones, no overrides applied."""
         process_config({"config": patched_config}, ctx)
         assert g.polygons == []
-        # Global cpu_max_processes remains 3 (not overridden to 2)
-        assert g.config["cpu_max_processes"] == 3
+        # Global wait remains default (not overridden by any monitor)
+        assert g.config["wait"] == 0
 
 
 # ===========================================================================
@@ -257,12 +257,12 @@ class TestRemoteConfigInjection:
             ml_options["general"]["ml_user"] = g.config.get("ml_user")
             ml_options["general"]["ml_password"] = g.config.get("ml_password")
             ml_options["general"]["ml_timeout"] = g.config.get("ml_timeout", 60)
-            ml_options["general"]["ml_gateway_mode"] = g.config.get("ml_gateway_mode", "image")
+            ml_options["general"]["ml_gateway_mode"] = g.config.get("ml_gateway_mode", "url")
 
         assert ml_options["general"]["ml_gateway"] == "http://gpu:5000"
         assert ml_options["general"]["ml_user"] == "admin"
         assert ml_options["general"]["ml_password"] == "secret"
-        assert ml_options["general"]["ml_gateway_mode"] == "image"
+        assert ml_options["general"]["ml_gateway_mode"] == "url"
 
     def test_no_gateway_no_injection(self, tmp_path, ctx):
         """Without ml_gateway, no gateway keys are injected."""

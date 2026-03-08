@@ -19,7 +19,7 @@ except ImportError:
 
 
 # Keys that belong to known sections (flat config keys)
-KNOWN_SECTIONS = ['general', 'animation', 'remote', 'object', 'face', 'alpr', 'ml']
+KNOWN_SECTIONS = ['general', 'remote', 'object', 'face', 'alpr', 'ml']
 
 # Legacy keys to strip from output
 LEGACY_KEYS = {'use_sequence', 'detection_sequence', 'detection_mode'}
@@ -36,7 +36,7 @@ INDIRECTION_ONLY_KEYS = {
     'yolo4_object_config', 'yolo4_object_weights', 'yolo4_object_labels',
     'yolo4_object_framework', 'yolo4_object_processor',
     'gpu_max_processes', 'gpu_max_lock_wait', 'cpu_max_processes', 'cpu_max_lock_wait',
-    'object_min_confidence', 'max_detection_size',
+    'object_min_confidence', 'max_detection_size', 'past_det_max_diff_area',
     'face_model', 'face_train_model', 'face_recognition_framework',
     'face_num_jitters', 'face_upsample_times', 'known_images_path', 'unknown_images_path',
     'unknown_face_name', 'save_unknown_faces', 'save_unknown_faces_leeway_pixels',
@@ -362,6 +362,15 @@ def build_yaml(cp):
     # Remove keys that were only used for indirection and have been expanded
     keys_to_remove = INDIRECTION_ONLY_KEYS & expanded_vars
     output = remove_indirection_keys(output, keys_to_remove)
+
+    # Remove resize:'no' from stream_sequence — None (no resize) is now the
+    # default in pyzm, so keeping it would be redundant clutter.
+    ml = output.get('ml', {})
+    ss = ml.get('stream_sequence')
+    if isinstance(ss, dict):
+        raw = ss.get('resize')
+        if raw is None or (isinstance(raw, str) and raw.lower() == 'no'):
+            ss.pop('resize', None)
 
     # Coerce numeric strings to int/float
     output = coerce_types(output)

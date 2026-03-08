@@ -55,8 +55,8 @@ class TestProcessConfig:
 
     def test_type_conversion_int(self, patched_config, ctx):
         process_config({"config": patched_config}, ctx)
-        assert isinstance(g.config.get("cpu_max_processes"), int)
-        assert g.config["cpu_max_processes"] == 3
+        assert isinstance(g.config.get("poly_thickness"), int)
+        assert g.config["poly_thickness"] == 2
 
     def test_type_conversion_string(self, patched_config, ctx):
         process_config({"config": patched_config}, ctx)
@@ -88,8 +88,8 @@ class TestProcessConfig:
 
     def test_monitor_override(self, patched_config, ctx):
         process_config({"config": patched_config, "monitorid": "1"}, ctx)
-        # monitor 1 overrides cpu_max_processes to 2
-        assert g.config["cpu_max_processes"] == 2
+        # monitor 1 overrides poly_thickness to 4
+        assert g.config["poly_thickness"] == 4
 
     def test_monitor_zones(self, patched_config, ctx):
         process_config({"config": patched_config, "monitorid": "1"}, ctx)

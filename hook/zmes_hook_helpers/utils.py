@@ -237,7 +237,7 @@ def process_config(args, ctx):
             g.config[k] = _correct_type(val, v['type'])
 
         # Flatten YAML sections into g.config
-        flat_sections = ['general', 'animation', 'remote']
+        flat_sections = ['general', 'remote']
         for section in flat_sections:
             if section not in yml:
                 continue
@@ -247,7 +247,7 @@ def process_config(args, ctx):
                 if k in g.config_vals:
                     g.config[k] = _correct_type(v, g.config_vals[k]['type'])
                 else:
-                    g.config[k] = v
+                    g.logger.Info('Config key "{}" in [{}] is not recognized — ignoring'.format(k, section))
 
         # Handle [ml] section
         if 'ml' in yml:
@@ -257,11 +257,7 @@ def process_config(args, ctx):
                     # These are native dicts from YAML - resolve secrets recursively
                     g.config[k] = _resolve_secret(v)
                 else:
-                    v = _resolve_secret(v)
-                    if k in g.config_vals:
-                        g.config[k] = _correct_type(v, g.config_vals[k]['type'])
-                    else:
-                        g.config[k] = v
+                    g.logger.Info('Config key "{}" in [ml] is not recognized — ignoring'.format(k))
 
         # Handle [push] section as nested dict
         g.config['push'] = _resolve_secret(yml.get('push', {}))

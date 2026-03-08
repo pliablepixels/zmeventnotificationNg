@@ -538,7 +538,7 @@ model-load step.
 If the remote server is unreachable and ``ml_fallback_local`` is ``yes``, detection
 falls back to running locally on the ZM box.
 
-All settings (``ml_sequence``, ``stream_sequence``, monitor overrides, zones, animation,
+All settings (``ml_sequence``, ``stream_sequence``, monitor overrides, zones,
 image writing, etc.) stay in ``objectconfig.yml`` — there is no second config file to manage.
 The remote server is a pure inference engine that only needs models and a processor setting;
 all filtering (pattern, zones, size, past-detection dedup) is applied client-side by the

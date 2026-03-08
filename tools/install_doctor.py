@@ -218,20 +218,6 @@ def check_known_faces_empty(enabled_models, base_data_path):
     return None
 
 
-def check_animation_deps(hook_cfg):
-    """Warn if animation is enabled but gifsicle is not installed."""
-    anim = hook_cfg.get("animation", {}) if hook_cfg else {}
-    if not isinstance(anim, dict):
-        return None
-    if str(anim.get("create_animation", "no")).lower() not in ("yes", "true", "1"):
-        return None
-    if shutil.which("gifsicle") is None:
-        return (
-            "Animation is enabled (animation.create_animation: yes) but gifsicle is not in PATH.\n"
-            "    Install it with: apt-get install gifsicle"
-        )
-    return None
-
 
 # ---------------------------------------------------------------------------
 # ES config checks
@@ -476,10 +462,6 @@ def main():
         warnings.extend(check_model_files(enabled_models, base))
 
         w = check_known_faces_empty(enabled_models, base)
-        if w:
-            warnings.append(w)
-
-        w = check_animation_deps(hook_cfg)
         if w:
             warnings.append(w)
 

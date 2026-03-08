@@ -104,21 +104,19 @@ Key Hook Configuration Sections
 
 The ``objectconfig.yml`` file is organized into these sections:
 
-- ``general`` — ZM portal/API credentials, data paths, process locking, debug images,
-  ``import_zm_zones``, ``tag_detected_objects``
-- ``animation`` — create GIF/MP4 animations from event frames around the detection.
-  Key settings: ``create_animation`` (``yes``/``no``), ``animation_types`` (``mp4,gif``),
-  ``animation_width``, ``animation_retry_sleep``, ``animation_max_tries``, ``fast_gif``
+- ``general`` — ZM portal/API credentials, data paths, debug images,
+  ``import_zm_zones``, ``tag_detected_objects``, ``show_models``
 - ``push`` — direct FCM push notifications from ``zm_detect`` (Path 1 only, ZM 1.39.2+).
   See :ref:`push_config` below for full details.
 - ``remote`` — remote ML server (``pyzm.serve``) gateway URL, mode, credentials, fallback
 - ``ml`` — the detection pipeline:
 
-  - ``ml.stream_sequence`` — frame selection: ``frame_set``, ``frame_strategy``, retry settings, ``resize``
-  - ``ml.ml_sequence`` — model pipeline: ``model_sequence`` ordering, per-type ``general`` + ``sequence`` lists
+  - ``ml.stream_sequence`` — frame selection: ``frame_set``, ``resize``, retry settings
+  - ``ml.ml_sequence`` — model pipeline: ``model_sequence`` ordering, ``frame_strategy``,
+    ``disable_locks``, ``match_past_detections``, per-type ``general`` + ``sequence`` lists
     (see :doc:`hooks` for full details)
 
-- ``monitors`` — per-monitor overrides for ``wait``, ``resize``, ``ml_sequence``,
+- ``monitors`` — per-monitor overrides for ``wait``, ``ml_sequence``,
   ``stream_sequence``, and ``zones`` (with ``detection_pattern`` and ``ignore_pattern``)
 
 Refer to the sample config files for the full list of options with inline comments.
