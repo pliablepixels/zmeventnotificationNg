@@ -8,48 +8,7 @@ polygons = []  # will contain mask(s) for a monitor
 
 # valid config keys and defaults
 config_vals = {
-    'version':{
-            'section': 'general',
-            'default': None,
-            'type': 'string',
-        },
-
-        'cpu_max_processes':{
-            'section': 'general',
-            'default': '1',
-            'type': 'int',
-        },
-        'gpu_max_processes':{
-            'section': 'general',
-            'default': '1',
-            'type': 'int',
-        },
-        'tpu_max_processes':{
-            'section': 'general',
-            'default': '1',
-            'type': 'int',
-        },
-
-        'cpu_max_lock_wait':{
-            'section': 'general',
-            'default': '120',
-            'type': 'int',
-        },
-
-        'gpu_max_lock_wait':{
-            'section': 'general',
-            'default': '120',
-            'type': 'int',
-        },
-        'tpu_max_lock_wait':{
-            'section': 'general',
-            'default': '120',
-            'type': 'int',
-        },
-
-
-        
-        'secrets':{
+    'secrets':{
             'section': 'general',
             'default': None,
             'type': 'string',
@@ -85,49 +44,18 @@ config_vals = {
             'default': None,
             'type': 'string'
         },
-        'basic_user':{
-            'section': 'general',
-            'default': None,
-            'type': 'string'
-        },
-     
-        'basic_password':{
-            'section': 'general',
-            'default': None,
-            'type': 'string'
-        },
         'image_path':{
             'section': 'general',
             'default': '/var/lib/zmeventnotification/images',
             'type': 'string'
         },
         
-        'match_past_detections':{
-            'section': 'general',
-            'default': 'no',
-            'type': 'string'
-        },
-        'past_det_max_diff_area':{
-            'section': 'general',
-            'default': '5%',
-            'type': 'string'
-        },
-        'max_detection_size':{
-            'section': 'general',
-            'default': '',
-            'type': 'string'
-        },
         'wait': {
             'section': 'general',
             'default':'0',
             'type': 'int'
         },
 
-        'delete_after_analyze':{
-            'section': 'general',
-            'default': 'no',
-            'type': 'string',
-        },
         'show_percent':{
             'section': 'general',
             'default': 'no',
@@ -157,11 +85,6 @@ config_vals = {
             'section': 'general',
             'default': 'no',
             'type': 'string',
-        },
-        'poly_color':{
-            'section': 'general',
-            'default': '(127,140,141)',
-            'type': 'eval'
         },
         'poly_thickness':{
             'section': 'general',
@@ -228,11 +151,6 @@ config_vals = {
             'type': 'string'
         },
 
-        'disable_locks': {
-            'section': 'ml',
-            'default': 'no',
-            'type': 'string'
-        },
         'ml_sequence': {
             'section': 'ml',
             'default': None,

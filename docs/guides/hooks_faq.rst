@@ -272,6 +272,12 @@ The advantage: models load once on the server and persist in memory, so subseque
 detections are fast. If the remote server is down and ``ml_fallback_local`` is ``yes``,
 detection falls back to local inference automatically.
 
+**Your config works identically in both modes:** The remote server is a pure inference
+engine — it only runs models and returns raw detections. All filtering (pattern matching,
+zones, size limits, past-detection deduplication) is applied client-side by the ``Detector``
+using your ``objectconfig.yml`` settings. This means you configure everything in one place
+and it works the same whether running locally or remotely.
+
 **Choosing a gateway mode:**
 
 - ``ml_gateway_mode: "image"`` (default) — the ZM box fetches frames locally, JPEG-encodes
