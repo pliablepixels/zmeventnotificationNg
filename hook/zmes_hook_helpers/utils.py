@@ -2,13 +2,9 @@
 
 
 from __future__ import division
-import logging
-import logging.handlers
 import sys
-import datetime
 import ssl
 import json
-import time
 import re
 import ast
 import os
@@ -85,23 +81,6 @@ def format_detection_output(matched_data, config=None):
     return ''
 
 
-#resize polygons based on analysis scale
-
-
-def rescale_polygons(xfactor, yfactor):
-    newps = []
-    for p in g.polygons:
-        newp = []
-        for x, y in p['value']:
-            newx = int(x * xfactor)
-            newy = int(y * yfactor)
-            newp.append((newx, newy))
-        newps.append({'name': p['name'], 'value': newp, 'pattern': p['pattern'], 'ignore_pattern': p.get('ignore_pattern')})
-    g.logger.Debug(2,'resized polygons x={}/y={}: {}'.format(
-        xfactor, yfactor, newps))
-    g.polygons = newps
-
-
 # converts a string of coordinates 'x1,y1 x2,y2 ...' to a tuple set. We use this
 # to parse the polygon parameters in the config file
 
@@ -112,9 +91,6 @@ def str2tuple(str):
         raise ValueError ('{} formed an invalid polygon. Needs to have at least 3 points'.format(m))
     else:
         return m
-
-def str2arr(str):
-    return [map(int, x.strip().split(',')) for x in str.split(' ')]
 
 
 def str_split(my_str):
