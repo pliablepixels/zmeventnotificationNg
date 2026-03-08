@@ -399,8 +399,10 @@ Here is a concrete example from the default ``objectconfig.yml``:
 - For each detection type in ``model_sequence``, you specify model configurations in the ``sequence`` list.
   Each entry in the sequence is a model configuration with a ``name`` and ``enabled`` flag.
 
-  **Note**: When using ``pyzm.serve`` (remote ML), the ``ml_sequence`` and zone settings from
-  ``objectconfig.yml`` are sent along with each detection request.
+  **Note**: All ``ml_sequence`` settings (pattern, zones, past-detection filtering, etc.)
+  work identically whether detection runs locally or via a remote ``pyzm.serve`` server.
+  The remote server is a pure inference engine — all filtering is applied client-side
+  using your ``objectconfig.yml``.
 
 Leveraging same_model_sequence_strategy and frame_strategy effectively
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -536,8 +538,11 @@ model-load step.
 If the remote server is unreachable and ``ml_fallback_local`` is ``yes``, detection
 falls back to running locally on the ZM box.
 
-All other settings (``ml_sequence``, ``stream_sequence``, monitor overrides, animation,
+All settings (``ml_sequence``, ``stream_sequence``, monitor overrides, zones, animation,
 image writing, etc.) stay in ``objectconfig.yml`` — there is no second config file to manage.
+The remote server is a pure inference engine that only needs models and a processor setting;
+all filtering (pattern, zones, size, past-detection dedup) is applied client-side by the
+``Detector`` using your local config.
 
 **Two detection modes:**
 
@@ -558,9 +563,14 @@ URL mode (``ml_gateway_mode: "url"``)
 **Server endpoints:**
 
 - ``GET /health`` — returns ``{"status": "ok", "models_loaded": true}``
-- ``POST /detect`` — (image mode) accepts multipart ``file`` (JPEG) + optional ``zones`` (JSON)
-- ``POST /detect_urls`` — (URL mode) accepts JSON with frame URLs, auth token, and optional zones
+- ``POST /detect`` — (image mode) accepts multipart ``file`` (JPEG), returns raw (unfiltered) detections
+- ``POST /detect_urls`` — (URL mode) accepts JSON with frame URLs and auth token, returns per-frame raw detections
 - ``POST /login`` — (auth mode only) accepts ``{"username": ..., "password": ...}``, returns JWT token
+
+The server returns raw detection results without any filtering. Pattern matching, zone
+filtering, size filtering, and past-detection deduplication are all applied client-side
+by the ``Detector`` class using your ``objectconfig.yml`` settings. This means your
+configuration works identically whether running locally or remotely.
 
 Here is a part of my config, for example:
 
