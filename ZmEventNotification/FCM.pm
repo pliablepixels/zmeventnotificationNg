@@ -365,6 +365,16 @@ sub sendOverFCMV1 {
         $message_v2->{image_url} = $pic;
       }
   }
+
+  # Add profile to FCM data payload if present on connection
+  if (defined $obj->{profile} && $obj->{profile} ne '') {
+    if ($fcm_config{service_account_file}) {
+      $message_v2->{message}->{data}->{profile} = $obj->{profile};
+    } else {
+      $message_v2->{data}->{profile} = $obj->{profile};
+    }
+  }
+
   my $json = encode_json($message_v2);
   my $djson = maskPassword($json);
 
