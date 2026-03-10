@@ -3,8 +3,8 @@ Configuration Guide
 
 All configuration files use **YAML format**. There are two parts to the configuration of this system:
 
-* The Event Notification Server configuration - typically ``/etc/zm/zmeventnotification.yml``
-* The Machine Learning Hooks configuration - typically ``/etc/zm/objectconfig.yml``
+* The Event Notification Server configuration — typically ``/etc/zm/zmeventnotification.yml``
+* The Machine Learning Detection Hook configuration — typically ``/etc/zm/objectconfig.yml``
 
 The ES comes with a `sample ES config file <https://github.com/pliablepixels/zmeventnotification/blob/master/zmeventnotification.example.yml>`__
 which you should customize as fit. The sample config file is well annotated, so you really should read the comments to get an
@@ -17,24 +17,21 @@ which you should read as well if you are using hooks.
     ``objectconfig.ini``, ``secrets.ini``, ``es_rules.json``), the ``install.sh`` script will automatically
     migrate them to YAML. See :doc:`breaking` for details on the migration.
 
-Secret Tokens
--------------
-All the config files have a notion of secrets. Basically, it is a mechanism to separate out your personal passwords and tokens
-into a different file from your config file. This allows you to easily share your config files without inadvertently sharing your
-secrets.
+Secrets
+--------
 
-Basically, this is how it works:
+Both ``zmeventnotification.yml`` and ``objectconfig.yml`` support a shared secrets mechanism that keeps
+passwords and tokens out of your main config files. This lets you share config files safely without
+exposing credentials.
 
-You add a ``secrets`` key in the ``general`` section of either/both config files. This points to some filename you have created with tokens. Then you can just use the token name (prefixed with ``!``) in the config file.
+Add a ``secrets`` key in the ``general`` section of either (or both) config files, pointing to a
+secrets file. Then reference any secret by prefixing its name with ``!``.
 
-For example, let's suppose we have this in ``/etc/zm/objectconfig.yml``:
+For example, in ``/etc/zm/objectconfig.yml`` (or ``/etc/zm/zmeventnotification.yml``):
 
 ::
 
   general:
-    # This is an optional file
-    # If specified, you can specify tokens with secret values in that file
-    # and only refer to the tokens in your main config file
     secrets: /etc/zm/secrets.yml
 
     portal: "!ZM_PORTAL"
@@ -52,7 +49,8 @@ And ``/etc/zm/secrets.yml`` contains:
     ZM_PORTAL: "https://mysecretportal/zm"
     ZM_API_PORTAL: "https://mysecretportal/zm/api"
 
-Then, while parsing the config file every time a value is found that starts with ``!`` that means it's a secret token and the corresponding value from the secrets file will be substituted.
+Any value starting with ``!`` is treated as a secret token and replaced with the
+corresponding value from the secrets file.
 
 Secret resolution is **recursive** — tokens are resolved throughout the
 entire config, including inside nested structures like ``ml_sequence``
@@ -70,15 +68,20 @@ an ALPR model entry:
 Token matching is **case-insensitive**: ``!ZM_USER``, ``!zm_user``, and
 ``!Zm_User`` all match a secret named ``ZM_USER`` (or ``zm_user``).
 
-The same concept applies to ``/etc/zm/zmeventnotification.yml``.
+.. note::
 
-**Obviously this means you can no longer have a password beginning with an exclamation mark directly in the config. It will be treated as a secret token**.
-To work around this, create a password token in your secrets file and put the real password there.
+   Because ``!`` triggers secret lookup, you cannot use a password beginning with ``!``
+   directly in the config. Instead, create a token in your secrets file and reference it.
 
-Key ES Configuration Sections
--------------------------------
+Event Server Configuration
+----------------------------
 
-The ``zmeventnotification.yml`` file is organized into these sections:
+The Event Server is configured via ``/etc/zm/zmeventnotification.yml``.
+
+Key Sections
+~~~~~~~~~~~~~~
+
+The file is organized into these sections:
 
 - ``general`` — secrets file path, base data path, ES control interface settings, ``skip_monitors``
 - ``network`` — WebSocket port and bind address
@@ -99,64 +102,15 @@ processes can run concurrently. When the limit is reached, new events wait until
 slot is free. This is useful for resource-constrained systems where too many
 simultaneous ML detections can cause OOM or GPU contention.
 
-Key Hook Configuration Sections
----------------------------------
-
-The ``objectconfig.yml`` file is organized into these sections:
-
-- ``general`` — ZM portal/API credentials, data paths, debug images,
-  ``import_zm_zones``, ``tag_detected_objects``, ``show_models``
-- ``push`` — direct FCM push notifications from ``zm_detect`` (Path 1 only, ZM 1.39.2+).
-  See :ref:`push_config` below for full details.
-- ``remote`` — remote ML server (``pyzm.serve``) gateway URL, mode, credentials, fallback
-- ``ml`` — the detection pipeline:
-
-  - ``ml.stream_sequence`` — frame selection: ``frame_set``, ``resize``, retry settings
-  - ``ml.ml_sequence.general`` — pipeline-wide settings: ``model_sequence``, ``frame_strategy``,
-    ``disable_locks``, ``match_past_detections``, ``max_detection_size``, ``aliases``
-  - ``ml.ml_sequence.<type>`` — per-type ``general`` + ``sequence`` lists for object, face, alpr, audio
-    (see :doc:`hooks` for full details)
-
-- ``monitors`` — per-monitor overrides for ``wait``, ``ml_sequence``,
-  ``stream_sequence``, and ``zones`` (with ``detection_pattern`` and ``ignore_pattern``)
-
-.. _push_config:
-
-Direct Push Notifications (``push`` section)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The ``push`` section in ``objectconfig.yml`` configures direct FCM push notifications
-from ``zm_detect`` — **Path 1 only**, requires ZM 1.39.2+. ``zm_detect`` reads registered
-tokens from ZM's ``Notifications`` table via pyzm and sends push notifications through an
-FCM cloud function proxy after detection.
-
-See :ref:`hook_push_reference` in the Complete Hook Config Reference for the full key table.
-
-**Setup steps:**
-
-1. Ensure ZoneMinder is 1.39.2+ (adds the Notifications REST API).
-2. Set ``push.enabled`` to ``yes`` in ``objectconfig.yml``.
-   The cloud function URL and key are pre-configured with the managed zmNinjaNG
-   defaults (same as the ES) — no additional configuration needed.
-3. Register device tokens: client apps (e.g. zmNinjaNG) register FCM tokens via
-   the ZM ``/api/notifications.json`` REST endpoint. Tokens are stored in ZM's
-   ``Notifications`` database table.
-
-If you run your own FCM cloud function proxy, replace ``fcm_v1_url`` and
-``fcm_v1_key`` with your own values.
-
-``zm_detect`` respects per-token monitor filtering, throttle intervals,
-and push state. Invalid tokens are automatically cleaned up.
-
 .. _es_config_reference:
 
-Complete ES Config Reference
--------------------------------
+Complete Reference
+~~~~~~~~~~~~~~~~~~~~
 
 Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
 
 ``general`` — app-level settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -188,7 +142,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Comma-separated monitor IDs to completely skip ES processing
 
 ``network`` — WebSocket server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -205,7 +159,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Bind address (use ``0.0.0.0`` for all IPv4 interfaces)
 
 ``auth`` — authentication
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -222,7 +176,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Authentication timeout in seconds
 
 ``fcm`` — Firebase Cloud Messaging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -272,7 +226,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Path to Google service account JSON for direct FCM (bypasses proxy)
 
 ``mqtt`` — MQTT messaging
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -316,7 +270,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Disable TLS peer verification
 
 ``ssl`` — WebSocket SSL
-~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -336,7 +290,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Path to SSL private key file
 
 ``push`` — third-party push API
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -353,7 +307,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Script to invoke for push (receives event ID, monitor ID, name, cause, type, image path)
 
 ``customize`` — notification and display
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -409,7 +363,7 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - Master on/off switch for ML hooks
 
 ``hook`` — ML hook configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
@@ -461,27 +415,61 @@ Every key accepted by ``zmeventnotification.yml``, grouped by YAML section.
      - ``no``
      - Write detected labels as ZM Tags (requires ZM >= 1.37.44)
 
-Configuration Tools
----------------------
+Detection Hook Configuration
+-------------------------------
 
-Several tools are provided in the ``tools/`` directory of the source tree:
+The detection hooks are configured via ``/etc/zm/objectconfig.yml``.
 
-- ``tools/install_doctor.py`` — post-install diagnostic checker. Validates GPU/CUDA availability,
-  OpenCV version, model file paths, file permissions, SSL certificates, and Perl/Python dependencies.
-  Run automatically by ``install.sh`` at the end of installation. See :doc:`install_path1` for usage.
-- ``tools/config_migrate_yaml.py`` — migrates ``objectconfig.ini`` to ``objectconfig.yml``
-- ``tools/es_config_migrate_yaml.py`` — migrates ``zmeventnotification.ini`` and ``secrets.ini``
-  to their YAML equivalents
-- ``tools/config_upgrade_yaml.py`` — merges new keys from example configs into your existing YAML
-  config (used during upgrades to add new options without overwriting your settings)
-- ``tools/config_edit.py`` — programmatic config editor
+Key Sections
+~~~~~~~~~~~~~~
 
-See :doc:`breaking` for details on the INI-to-YAML migration.
+The file is organized into these sections:
+
+- ``general`` — ZM portal/API credentials, data paths, debug images,
+  ``import_zm_zones``, ``tag_detected_objects``, ``show_models``
+- ``push`` — direct FCM push notifications from ``zm_detect`` (Path 1 only, ZM 1.39.2+).
+  See :ref:`push_config` below for setup details.
+- ``remote`` — remote ML server (``pyzm.serve``) gateway URL, mode, credentials, fallback
+- ``ml`` — the detection pipeline:
+
+  - ``ml.stream_sequence`` — frame selection: ``frame_set``, ``resize``, retry settings
+  - ``ml.ml_sequence.general`` — pipeline-wide settings: ``model_sequence``, ``frame_strategy``,
+    ``disable_locks``, ``match_past_detections``, ``max_detection_size``, ``aliases``
+  - ``ml.ml_sequence.<type>`` — per-type ``general`` + ``sequence`` lists for object, face, alpr, audio
+    (see :doc:`hooks` for full details)
+
+- ``monitors`` — per-monitor overrides for ``wait``, ``ml_sequence``,
+  ``stream_sequence``, and ``zones`` (with ``detection_pattern`` and ``ignore_pattern``)
+
+.. _push_config:
+
+**Direct Push Notifications (push section)**
+
+The ``push`` section configures direct FCM push notifications
+from ``zm_detect`` — **Path 1 only**, requires ZM 1.39.2+. ``zm_detect`` reads registered
+tokens from ZM's ``Notifications`` table via pyzm and sends push notifications through an
+FCM cloud function proxy after detection.
+
+Setup steps:
+
+1. Ensure ZoneMinder is 1.39.2+ (adds the Notifications REST API).
+2. Set ``push.enabled`` to ``yes`` in ``objectconfig.yml``.
+   The cloud function URL and key are pre-configured with the managed zmNinjaNG
+   defaults (same as the ES) — no additional configuration needed.
+3. Register device tokens: client apps (e.g. zmNinjaNG) register FCM tokens via
+   the ZM ``/api/notifications.json`` REST endpoint. Tokens are stored in ZM's
+   ``Notifications`` database table.
+
+If you run your own FCM cloud function proxy, replace ``fcm_v1_url`` and
+``fcm_v1_key`` with your own values.
+
+``zm_detect`` respects per-token monitor filtering, throttle intervals,
+and push state. Invalid tokens are automatically cleaned up.
 
 .. _hook_config_reference:
 
-Complete Hook Config Reference
----------------------------------
+Complete Reference
+~~~~~~~~~~~~~~~~~~~~
 
 Every key accepted by ``objectconfig.yml``, grouped by YAML section.
 Keys not listed here will be logged as unrecognized and ignored.
@@ -492,7 +480,7 @@ Keys not listed here will be logged as unrecognized and ignored.
    on what changed and migration steps.
 
 ``general`` — app-level settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Consumed by ``zm_detect.py`` / ``utils.py``:
 
@@ -567,7 +555,7 @@ Consumed by ``zm_detect.py`` / ``utils.py``:
 .. _hook_push_reference:
 
 ``push`` — direct FCM push notifications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Direct push from ``zm_detect`` (Path 1 only, requires ZM 1.39.2+).
 See :ref:`push_config` above for setup steps.
@@ -614,7 +602,7 @@ See :ref:`push_config` above for setup steps.
      - Android message TTL in seconds (omit for FCM default)
 
 ``remote`` — remote ML gateway settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Forwarded to pyzm ``Detector``:
 
@@ -645,7 +633,7 @@ Forwarded to pyzm ``Detector``:
      - Fall back to local detection if remote gateway fails
 
 ``ml.stream_sequence`` — frame extraction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Read by pyzm ``StreamConfig``:
 
@@ -691,7 +679,7 @@ Read by pyzm ``StreamConfig``:
      - Convert snapshot frame to its actual frame ID
 
 ``ml.ml_sequence.general`` — detection pipeline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Read by pyzm ``DetectorConfig``:
 
@@ -737,7 +725,7 @@ Read by pyzm ``DetectorConfig``:
      - Groups of labels to treat as equivalent (e.g. ``[['car','bus','truck']]``)
 
 ``ml.ml_sequence.<type>`` — per-type model settings
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Each type (``object``, ``face``, ``alpr``, ``audio``) has a ``general`` section for
 overrides and a ``sequence`` list of model configurations. See :doc:`hooks` for details
@@ -745,8 +733,25 @@ on model-specific keys (``object_weights``, ``face_detection_framework``,
 ``alpr_service``, etc.).
 
 ``monitors`` — per-monitor overrides
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Any key from the sections above can be overridden per monitor. Dict values
 (``ml_sequence``, ``stream_sequence``) are deep-merged; scalar values are replaced.
 See :doc:`hooks` for zone configuration (``detection_pattern``, ``ignore_pattern``).
+
+Configuration Tools
+---------------------
+
+Several tools are provided in the ``tools/`` directory of the source tree:
+
+- ``tools/install_doctor.py`` — post-install diagnostic checker. Validates GPU/CUDA availability,
+  OpenCV version, model file paths, file permissions, SSL certificates, and Perl/Python dependencies.
+  Run automatically by ``install.sh`` at the end of installation. See :doc:`install_path1` for usage.
+- ``tools/config_migrate_yaml.py`` — migrates ``objectconfig.ini`` to ``objectconfig.yml``
+- ``tools/es_config_migrate_yaml.py`` — migrates ``zmeventnotification.ini`` and ``secrets.ini``
+  to their YAML equivalents
+- ``tools/config_upgrade_yaml.py`` — merges new keys from example configs into your existing YAML
+  config (used during upgrades to add new options without overwriting your settings)
+- ``tools/config_edit.py`` — programmatic config editor
+
+See :doc:`breaking` for details on the INI-to-YAML migration.
