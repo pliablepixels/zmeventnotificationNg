@@ -237,6 +237,9 @@ Consumed by ``zm_detect.py`` / ``utils.py``:
    * - ``show_models``
      - ``no``
      - Show model name in detection output (e.g. ``(YOLOv11) person``)
+   * - ``show_frame_match_type``
+     - ``yes``
+     - Show frame match prefix in detection output: ``[a]`` (alarm), ``[s]`` (snapshot), ``[x]`` (other)
    * - ``write_image_to_zm``
      - ``yes``
      - Write annotated image back to ZoneMinder event

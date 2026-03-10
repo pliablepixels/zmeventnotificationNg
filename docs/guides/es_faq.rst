@@ -248,9 +248,11 @@ ES). This is useful when you don't want to invoke hooks for certain
 monitors as they may be expensive (especially if you are doing object
 detection)
 
-Finally, ``keep_frame_match_type`` is really used when you enable
-"bestmatch". It prefixes an ``[a]`` or ``[s]`` to tell you if object
-detection succeeded in the alarmed or snapshot frame.
+Finally, ``show_frame_match_type`` (in ``objectconfig.yml``) controls
+whether the detection output includes a frame match prefix: ``[a]`` for
+alarm frame, ``[s]`` for snapshot frame, or ``[x]`` for other. This is
+useful for debugging which frame was used for detection. The default is
+``yes`` (prefix included).
 
 Here is an example: (Note: just an example, please don't ask me for
 support for person detection)
