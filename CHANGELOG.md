@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 
 
+## [7.0.14] - 2026-03-10
+
+### Bug Fixes
+
+- handle missing frame match prefix in pushover and ftp plugins ([9476153](https://github.com/pliablepixels/zmeventnotification/commit/9476153a1080d768eefb1f8e4991c14ae77f7e93))
+- move max_detection_size, match_past_detections to ml_sequence.general ([2c4c280](https://github.com/pliablepixels/zmeventnotification/commit/2c4c280b8e20d16c3d6e2f2ed5c6c1527ba1d611))
+- register ml_gateway_mode and ml_timeout in common_params ([6606e8d](https://github.com/pliablepixels/zmeventnotification/commit/6606e8d1bfb2936bb1b728f1707b5cd2dbbf112e))
+- inject monitor_id and image_path into ml_options ([dfb23d2](https://github.com/pliablepixels/zmeventnotification/commit/dfb23d28eb43381bef6c0abb4df74506de395a26))
+- cache zm.event() call, remove private detector._gateway access ([d4d0b5c](https://github.com/pliablepixels/zmeventnotification/commit/d4d0b5caff1ab863e794946686dfc4d103450cd3))
+- honor allow_self_signed in animation, guard ZeroDivisionError ([53bb1b0](https://github.com/pliablepixels/zmeventnotification/commit/53bb1b03ed45ebab7eb186cddb7dcf1a5b39061e))
+- exit with error code 1 on config parse failure ([56e3a5e](https://github.com/pliablepixels/zmeventnotification/commit/56e3a5e82af036916b5240ef1b064731299529cc))
+- pass through pattern and ignore_pattern in import_zm_zones ([ce59da3](https://github.com/pliablepixels/zmeventnotification/commit/ce59da34b7b99bf7a6d8fe9071d17bda1679f8da))
+
+### Documentation
+
+- add implementation plan for show_frame_match_type ([57ef67a](https://github.com/pliablepixels/zmeventnotification/commit/57ef67a38161c51fd4ad5a4135d4cb607c57be6d))
+- add keep_frame_match_type removal to breaking changes ([cb91c16](https://github.com/pliablepixels/zmeventnotification/commit/cb91c16ad029152e9b39368891aec611020afdea))
+- update config reference for show_frame_match_type, remove keep_frame_match_type ([90ecee9](https://github.com/pliablepixels/zmeventnotification/commit/90ecee97f05510713f6ff5f55f2f22d16184f636))
+- rename zmNg/zmNinja to zmNinjaNG across all references ([e890afc](https://github.com/pliablepixels/zmeventnotification/commit/e890afce9158d61dbe050b83063411a167e1fcf9))
+- fix RST formatting — promote config reference, fix nested markup ([b6c905f](https://github.com/pliablepixels/zmeventnotification/commit/b6c905f923971952c9532bd03f379074df912704))
+- add complete config reference table, document breaking changes ([16a7f4f](https://github.com/pliablepixels/zmeventnotification/commit/16a7f4f4bd214656d13ec5ac2ac896f92d23bf67))
+- fix frame_strategy placement, clarify ml_sequence.general keys ([3e5697f](https://github.com/pliablepixels/zmeventnotification/commit/3e5697fd14d233073ef392472440c6bf069ff042))
+- add AGENTS.md with plan file hygiene instructions ([a3c6644](https://github.com/pliablepixels/zmeventnotification/commit/a3c6644cc25780fa765fc674081db32fe588fb59))
+- update remote detection docs for thin server refactor ([b8f8b0b](https://github.com/pliablepixels/zmeventnotification/commit/b8f8b0bc5b966fa90bdd7180e48de6fd162cc654))
+- fix push_config ref label so it renders as a clickable link ([3ce03c7](https://github.com/pliablepixels/zmeventnotification/commit/3ce03c723deb202a5f974dfc6b0040860205eb3a))
+- clarify Path 1 vs Path 2 notification capabilities across all docs ([3ac2818](https://github.com/pliablepixels/zmeventnotification/commit/3ac2818b60d2f29314d7cce5172d3f6207cba29e))
+
+### Features
+
+- add include_profile_in_push config flag ([681459c](https://github.com/pliablepixels/zmeventnotification/commit/681459cfab3352bdb599b9efb2f7167a20d17c6d))
+- add profile to visible push notification display ([a579000](https://github.com/pliablepixels/zmeventnotification/commit/a57900017a0f0f02e208a542a679b1bfc3d83592))
+- include profile in direct-mode FCM push payload ([72a4da3](https://github.com/pliablepixels/zmeventnotification/commit/72a4da3a2c9fe64832197d31f4a2b9ccf48cea23))
+- include profile in FCM push data payload ([edfd896](https://github.com/pliablepixels/zmeventnotification/commit/edfd896d2752190cf43c6b972a861b311742d388))
+- parse and store profile in token registration ([4dbdca6](https://github.com/pliablepixels/zmeventnotification/commit/4dbdca6803c7715102d4490d20c2525af85342f3))
+- auto-remove keep_frame_match_type during config upgrade ([48b7983](https://github.com/pliablepixels/zmeventnotification/commit/48b798310008162ed70672d483cdacb067e04180))
+- add show_frame_match_type config to control [a]/[s]/[x] prefix ([2b18e0c](https://github.com/pliablepixels/zmeventnotification/commit/2b18e0cc5c67637535806f66f2b638800b08ad16))
+
+### Miscellaneous
+
+- ver bump ([76bc545](https://github.com/pliablepixels/zmeventnotification/commit/76bc5451b108b8fa7f71bd3e1f838e01881d521c))
+- add docs/plans/ to .gitignore ([619aadc](https://github.com/pliablepixels/zmeventnotification/commit/619aadcb7c31c2da77b5f94ab366ed10935458d2))
+- ver bump ([f640add](https://github.com/pliablepixels/zmeventnotification/commit/f640add12e2edd9c0f060d74cfab2e2f7adcc66d))
+- remove unused deps (imageio, pygifsicle, future) from setup.py ([1484e09](https://github.com/pliablepixels/zmeventnotification/commit/1484e098230d06db552aaf18715cd28902b462d3))
+- ver bump ([de84ce7](https://github.com/pliablepixels/zmeventnotification/commit/de84ce71fed27881578ebd8cda4ddc94030b3494))
+- remove dead code from hook helpers ([b02ae11](https://github.com/pliablepixels/zmeventnotification/commit/b02ae1155d2055ef0fdba108f1f78852297ebf67))
+
+### Refactoring
+
+- remove keep_frame_match_type — replaced by hook-side show_frame_match_type ([263b3d2](https://github.com/pliablepixels/zmeventnotification/commit/263b3d2182e0ea4bec086a445a3fb91913ce07c9))
+- use frame_id from detection JSON in buildPictureUrl ([c749631](https://github.com/pliablepixels/zmeventnotification/commit/c749631fc111844808c9745fb02d0cd1cbfa0385))
+- config simplicity — fix key placement, remove dead code, add validation ([99bcd99](https://github.com/pliablepixels/zmeventnotification/commit/99bcd99b330e6316fc947909de6570079a381dbf))
+
+### Testing
+
+- config flow tests for monitor overrides, remote, and monitor_id injection ([a6d0cfc](https://github.com/pliablepixels/zmeventnotification/commit/a6d0cfcee827688c08b087d55ee8d334ce69bd13))
+
 ## [7.0.12] - 2026-03-06
 
 ### Bug Fixes
@@ -16,6 +72,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- update CHANGELOG for v7.0.12 ([d790632](https://github.com/pliablepixels/zmeventnotification/commit/d7906321a571720767aeeb64f378b8411db6bab3))
 - add manual push notification testing instructions ([a076f74](https://github.com/pliablepixels/zmeventnotification/commit/a076f7479dc667652416da113af6beeb7d5a2c5b))
 - add note about desktop polling in Direct mode ([70f9a12](https://github.com/pliablepixels/zmeventnotification/commit/70f9a12509189de11cfd9758b67724c31147414a))
 - update Path 1 references to reflect push notification support ([7daceb0](https://github.com/pliablepixels/zmeventnotification/commit/7daceb079802564379b79283fc5f9dd51058e633))
