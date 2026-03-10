@@ -130,46 +130,7 @@ from ``zm_detect`` — **Path 1 only**, requires ZM 1.39.2+. ``zm_detect`` reads
 tokens from ZM's ``Notifications`` table via pyzm and sends push notifications through an
 FCM cloud function proxy after detection.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 28 15 57
-
-   * - Key
-     - Default
-     - Description
-   * - ``enabled``
-     - ``no``
-     - Enable direct FCM push notifications from ``zm_detect``
-   * - ``fcm_v1_url``
-     - *(managed zmNinjaNG URL)*
-     - URL of the FCM cloud function proxy. Replace only if you run your own.
-   * - ``fcm_v1_key``
-     - *(managed zmNinjaNG key)*
-     - Authorization key for the cloud function proxy. Replace only if you run your own.
-   * - ``replace_push_messages``
-     - ``yes``
-     - Collapse notifications per monitor (replaces previous push)
-   * - ``include_picture``
-     - ``yes``
-     - Include event image URL in the notification
-   * - ``picture_url``
-     - *none*
-     - Picture URL template (use ``EVENTID`` as placeholder for event ID)
-   * - ``picture_portal_username``
-     - *none*
-     - Username for picture URL authentication
-   * - ``picture_portal_password``
-     - *none*
-     - Password for picture URL authentication
-   * - ``include_profile_in_push``
-     - ``no``
-     - Include profile name in push display (iOS subtitle, Android body append)
-   * - ``android_priority``
-     - ``high``
-     - FCM priority for Android (``high`` or ``normal``)
-   * - ``android_ttl``
-     - *none*
-     - Android message TTL in seconds (omit for FCM default)
+See :ref:`hook_push_reference` in the Complete Hook Config Reference for the full key table.
 
 **Setup steps:**
 
@@ -602,6 +563,55 @@ Consumed by ``zm_detect.py`` / ``utils.py``:
    * - ``only_triggered_zm_zones``
      - ``no``
      - When ``yes``, import only ZM zones that triggered the alarm (forces ``import_zm_zones: yes``)
+
+.. _hook_push_reference:
+
+``push`` — direct FCM push notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Direct push from ``zm_detect`` (Path 1 only, requires ZM 1.39.2+).
+See :ref:`push_config` above for setup steps.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 15 57
+
+   * - Key
+     - Default
+     - Description
+   * - ``enabled``
+     - ``no``
+     - Enable direct FCM push notifications from ``zm_detect``
+   * - ``fcm_v1_url``
+     - *(managed zmNinjaNG URL)*
+     - URL of the FCM cloud function proxy. Replace only if you run your own.
+   * - ``fcm_v1_key``
+     - *(managed zmNinjaNG key)*
+     - Authorization key for the cloud function proxy. Replace only if you run your own.
+   * - ``replace_push_messages``
+     - ``yes``
+     - Collapse notifications per monitor (replaces previous push)
+   * - ``include_picture``
+     - ``yes``
+     - Include event image URL in the notification
+   * - ``picture_url``
+     - *none*
+     - Picture URL template (use ``EVENTID`` as placeholder for event ID)
+   * - ``picture_portal_username``
+     - *none*
+     - Username for picture URL authentication
+   * - ``picture_portal_password``
+     - *none*
+     - Password for picture URL authentication
+   * - ``include_profile_in_push``
+     - ``no``
+     - Include profile name in push display (iOS subtitle, Android body append)
+   * - ``android_priority``
+     - ``high``
+     - FCM priority for Android (``high`` or ``normal``)
+   * - ``android_ttl``
+     - *none*
+     - Android message TTL in seconds (omit for FCM default)
 
 ``remote`` — remote ML gateway settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
