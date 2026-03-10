@@ -311,6 +311,15 @@ sub sendOverFCMV1 {
         main::Debug(2, 'fcmv1: Unknown platform '.$obj->{platform});
       }
 
+      # Add profile to visible notification display (direct mode)
+      if ($fcm_config{include_profile_in_push} eq 'yes' && defined $obj->{profile} && $obj->{profile} ne '') {
+        if ($obj->{platform} eq 'ios') {
+          $message_v2->{message}->{apns}->{payload}->{aps}->{alert}->{subtitle} = $obj->{profile};
+        } elsif ($obj->{platform} eq 'android') {
+          $message_v2->{message}->{notification}->{body} .= " \x{2014} " . $obj->{profile};
+        }
+      }
+
   } else {
       main::Debug(2, "fcmv1: Building proxy format");
 
@@ -356,6 +365,15 @@ sub sendOverFCMV1 {
         main::Debug(2, 'Unknown platform '.$obj->{platform});
       }
 
+      # Add profile to visible notification display (proxy mode)
+      if ($fcm_config{include_profile_in_push} eq 'yes' && defined $obj->{profile} && $obj->{profile} ne '') {
+        if ($obj->{platform} eq 'ios') {
+          $message_v2->{ios}->{subtitle} = $obj->{profile};
+        } elsif ($obj->{platform} eq 'android') {
+          $message_v2->{body} .= " \x{2014} " . $obj->{profile};
+        }
+      }
+
       if ($fcm_config{log_raw_message}) {
         $message_v2->{log_raw_message} = 'yes';
         main::Debug(2, "The server cloud function at $uri will log your full message. Please ONLY USE THIS FOR DEBUGGING with me author and turn off later");
@@ -367,7 +385,7 @@ sub sendOverFCMV1 {
   }
 
   # Add profile to FCM data payload if present on connection
-  if (defined $obj->{profile} && $obj->{profile} ne '') {
+  if ($fcm_config{include_profile_in_push} eq 'yes' && defined $obj->{profile} && $obj->{profile} ne '') {
     if ($fcm_config{service_account_file}) {
       $message_v2->{message}->{data}->{profile} = $obj->{profile};
     } else {

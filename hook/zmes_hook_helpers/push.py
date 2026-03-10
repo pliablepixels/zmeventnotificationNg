@@ -77,7 +77,7 @@ def send_push_notifications(zm, config, monitor_id, event_id, monitor_name, caus
         }
 
         # Include profile if present on notification
-        if notif.profile:
+        if push_cfg.get('include_profile_in_push') == 'yes' and notif.profile:
             payload['data']['profile'] = notif.profile
 
         # Include picture URL if configured
@@ -120,6 +120,13 @@ def send_push_notifications(zm, config, monitor_id, event_id, monitor_name, caus
             }
             if push_cfg.get('replace_push_messages') == 'yes':
                 payload['ios']['headers']['apns-collapse-id'] = 'zmninjapush'
+
+        # Add profile to visible notification display
+        if push_cfg.get('include_profile_in_push') == 'yes' and notif.profile:
+            if notif.platform == 'ios':
+                payload['ios']['subtitle'] = notif.profile
+            elif notif.platform == 'android':
+                payload['body'] += ' \u2014 ' + notif.profile
 
         # Send via proxy
         try:
