@@ -67,6 +67,33 @@ On the GPU box, start with::
    python -m pyzm.serve --models yolo11s --port 5000 --auth --auth-user admin --auth-password secret
 
 
+Frame Match Type Setting Moved (7.x)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``keep_frame_match_type`` setting has been **removed from the ES config**
+(``zmeventnotification.yml``) and replaced by ``show_frame_match_type`` in
+``objectconfig.yml`` under the ``general:`` section.
+
+**What changed:**
+
+- The ES no longer strips the ``[a]``/``[s]``/``[x]`` prefix from detection
+  output. Instead, the hook itself decides whether to include it.
+- ``show_frame_match_type: "yes"`` (default) includes the prefix — same
+  behavior as the old ``keep_frame_match_type: "yes"``.
+- ``show_frame_match_type: "no"`` suppresses the prefix entirely, both when
+  running ``zm_detect.py`` directly and when the ES sends push notifications.
+
+**What you need to do:**
+
+1. **Remove** ``keep_frame_match_type`` from your ``zmeventnotification.yml``
+   (under the ``hook:`` section). It is no longer read.
+2. If you previously set ``keep_frame_match_type: "no"`` to hide the prefix,
+   add ``show_frame_match_type: "no"`` to the ``general:`` section of your
+   ``objectconfig.yml`` instead.
+3. If you were using the default (``yes``), no action is needed — the new
+   default is also ``yes``.
+
+
 Config Cleanup (7.x)
 ~~~~~~~~~~~~~~~~~~~~~~
 
