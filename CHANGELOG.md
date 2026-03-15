@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 
 
+## [7.0.15] - 2026-03-15
+
+### Documentation
+
+- restructure config guide for clarity ([347b090](https://github.com/pliablepixels/zmeventnotification/commit/347b090cecac2328b530cfc5a6b1baaf9c51d87c))
+- add push table to Complete Hook Config Reference ([459b35d](https://github.com/pliablepixels/zmeventnotification/commit/459b35dd5b16547b4dfbc4afca772e25c6619e49))
+- add complete ES config reference and push config table ([5b90029](https://github.com/pliablepixels/zmeventnotification/commit/5b900296a272c1a2e1886e572d7fbf5b7d7ff9a9))
+
+### Features
+
+- add --override/-O CLI flag to zm_detect.py ([238570d](https://github.com/pliablepixels/zmeventnotification/commit/238570d49b1dd8ecd03c7883066c4fab610d7d17))
+- update send_push cloud function for zmNinjaNG ([0255db6](https://github.com/pliablepixels/zmeventnotification/commit/0255db6410da36a06f0d966344964375b7ba15bd))
+
+### Miscellaneous
+
+- bump version to v7.0.15 ([da34a7a](https://github.com/pliablepixels/zmeventnotification/commit/da34a7a643ada7d53bb35ac30145f7b6e0b872c7))
+- verbump ([0b2ffb1](https://github.com/pliablepixels/zmeventnotification/commit/0b2ffb1e0d9251bcfd90d4111ec696e818455d90))
+- added separator between detection and motion ([57d9368](https://github.com/pliablepixels/zmeventnotification/commit/57d93687fd166bf320a6d0137cada7add5f3674e))
+
 ## [7.0.14] - 2026-03-10
 
 ### Bug Fixes
@@ -18,6 +37,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- update CHANGELOG for v7.0.14 ([319387b](https://github.com/pliablepixels/zmeventnotification/commit/319387bc7b989d3eb27994ca6cbae5654cac0a24))
 - add implementation plan for show_frame_match_type ([57ef67a](https://github.com/pliablepixels/zmeventnotification/commit/57ef67a38161c51fd4ad5a4135d4cb607c57be6d))
 - add keep_frame_match_type removal to breaking changes ([cb91c16](https://github.com/pliablepixels/zmeventnotification/commit/cb91c16ad029152e9b39368891aec611020afdea))
 - update config reference for show_frame_match_type, remove keep_frame_match_type ([90ecee9](https://github.com/pliablepixels/zmeventnotification/commit/90ecee97f05510713f6ff5f55f2f22d16184f636))
