@@ -112,7 +112,6 @@ ml:
     contig_frames_before_error: 5
     max_attempts: 3
     sleep_between_attempts: 4
-    resize: 800
 
   # ML detection pipeline — all values inline, no {{}} indirection
   ml_sequence:
