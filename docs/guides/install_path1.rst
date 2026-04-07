@@ -24,7 +24,7 @@ ES control interface, see :doc:`install_path2`.
      block global pip installs.
    - ``--break-system-packages`` bypasses that protection but can break
      OS tools that depend on the system Python.
-   - Multiple ZoneMinder components (pyzm, hook helpers) need to share a
+   - Multiple ZoneMinder components (pyzmNg, hook helpers) need to share a
      single Python environment — a dedicated venv gives them isolation from
      the OS while still sharing packages with each other.
 
@@ -33,8 +33,8 @@ Step 1: Run the installer
 
 .. code:: bash
 
-   git clone https://github.com/pliablepixels/zmeventnotification
-   cd zmeventnotification
+   git clone https://github.com/pliablepixels/zmeventnotificationNg
+   cd zmeventnotificationNg
    sudo -H ./install.sh    # say No to ES, Yes to hooks, Yes to hook config
 
 Or, to run non-interactively:
@@ -47,20 +47,20 @@ This handles everything:
 
 - Creates a Python virtual environment at ``/opt/zoneminder/venv``
   (customizable with ``--venv-path``).
-- Installs **pyzm** and the **hook helpers** into the venv.
+- Installs **pyzmNg** and the **hook helpers** into the venv.
 - Downloads ML models (YOLOv4, YOLOv11, YOLOv26 by default).
 - Installs hook scripts, creates the directory structure, and installs
   config files.
 
-Both pyzm and the hook helpers live in the venv, keeping your system
+Both pyzmNg and the hook helpers live in the venv, keeping your system
 Python clean.
 
 .. note::
 
-   The installer pulls in **core pyzm** automatically. If you need additional
-   pyzm extras (remote ML server, training UI, etc.) or want to install a
-   local development version of pyzm, see the
-   `pyzm installation guide <https://pyzmv2.readthedocs.io/en/latest/guide/installation.html>`__.
+   The installer pulls in **core pyzmNg** automatically. If you need additional
+   pyzmNg extras (remote ML server, training UI, etc.) or want to install a
+   local development version of pyzmNg, see the
+   `pyzmNg installation guide <https://pyzmng.readthedocs.io/en/latest/guide/installation.html>`__.
 
 To use a custom venv path:
 
@@ -261,7 +261,7 @@ After installation, run the diagnostic tool to check your environment:
        --web-owner www-data --web-group www-data \
        --base-data /var/lib/zmeventnotification
 
-(Run from the zmeventnotification source directory.)
+(Run from the zmeventnotificationNg source directory.)
 This checks GPU/CUDA availability, OpenCV version, model file paths, file permissions,
 SSL certificates, MQTT/FCM Perl dependencies, and Python package versions. Fix any
 issues it reports before proceeding. Note that ``install.sh`` runs this automatically

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo/zmES7plus.png" alt="zmES7+ Logo" width="200">
+  <img src="logo/zmesng.png" alt="zmES Ng Logo" width="200">
 </p>
 
 Note
@@ -20,13 +20,13 @@ Documentation
 
 Full documentation — installation, configuration, testing, and more — is on **Read the Docs**:
 
-**[zmeventnotificationv7.readthedocs.io](https://zmeventnotificationv7.readthedocs.io/en/latest/)**
+**[zmeventnotificationng.readthedocs.io](https://zmeventnotificationng.readthedocs.io/en/latest/)**
 
 Key pages:
-- [Installation](https://zmeventnotificationv7.readthedocs.io/en/latest/guides/installation.html)
-- [Configuration](https://zmeventnotificationv7.readthedocs.io/en/latest/guides/config.html)
-- [Testing](https://zmeventnotificationv7.readthedocs.io/en/latest/guides/testing.html)
-- [Hooks & ML](https://zmeventnotificationv7.readthedocs.io/en/latest/guides/hooks.html)
+- [Installation](https://zmeventnotificationng.readthedocs.io/en/latest/guides/installation.html)
+- [Configuration](https://zmeventnotificationng.readthedocs.io/en/latest/guides/config.html)
+- [Testing](https://zmeventnotificationng.readthedocs.io/en/latest/guides/testing.html)
+- [Hooks & ML](https://zmeventnotificationng.readthedocs.io/en/latest/guides/hooks.html)
 
 ES 7.0 is in development — expect breakages. If you find issues, please post them to this repo, not ZM repos.
 
@@ -61,4 +61,4 @@ Screenshots
 Click each image for larger versions. Some of these images are from other users who have granted permission for use
 ###### (permissions received from: Rockedge/ZM Slack channel/Mar 15, 2019)
 
-<img src="https://github.com/pliablepixels/zmeventnotification/blob/master/screenshots/person_face.jpg" width="300px" /> <img src="https://github.com/pliablepixels/zmeventnotification/blob/master/screenshots/delivery.jpg" width="300px" /> <img src="https://github.com/pliablepixels/zmeventnotification/blob/master/screenshots/car.jpg" width="300px" /> <img src="https://github.com/pliablepixels/zmeventnotification/blob/master/screenshots/alpr.jpg" width="300px" />
+<img src="https://github.com/pliablepixels/zmeventnotificationNg/blob/master/screenshots/person_face.jpg" width="300px" /> <img src="https://github.com/pliablepixels/zmeventnotificationNg/blob/master/screenshots/delivery.jpg" width="300px" /> <img src="https://github.com/pliablepixels/zmeventnotificationNg/blob/master/screenshots/car.jpg" width="300px" /> <img src="https://github.com/pliablepixels/zmeventnotificationNg/blob/master/screenshots/alpr.jpg" width="300px" />

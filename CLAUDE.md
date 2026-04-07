@@ -5,8 +5,8 @@ Development notes
 * If you need to access DB, configs etc, access it as `sudo -u www-data`
 * Follow DRY principles for coding
 * Always write simple code
-* hooks/zm_detect.py and its helpers rely on pyzm. pyzm is located at ~/fiddle/pyzm 
-* When updating code, tests or documents, if you need to validate functionality, look at pyzm code
+* hooks/zm_detect.py and its helpers rely on pyzmNg. pyzmNg is located at ~/fiddle/pyzmNg 
+* When updating code, tests or documents, if you need to validate functionality, look at pyzmNg code
 * Use conventional commit format for all commits:
   * `feat:` new features
   * `fix:` bug fixes
@@ -15,9 +15,9 @@ Development notes
   * `chore:` maintenance, config, tooling
   * `test:` adding or updating tests
   * Scope is optional: `feat(install):`, `refactor(config):`, etc.
-* NEVER create issues, PRs, or push to the upstream repo (`ZoneMinder/zmeventnotification`). ALL issues, PRs, and pushes MUST go to `pliablepixels/zmeventnotification` (origin).
+* NEVER create issues, PRs, or push to the upstream repo (`ZoneMinder/zmeventnotificationNg`). ALL issues, PRs, and pushes MUST go to `pliablepixels/zmeventnotificationNg` (origin).
 * If you are fixing bugs or creating new features, the process MUST be:
-    - Create a GH issue on `pliablepixels/zmeventnotification` (label it)
+    - Create a GH issue on `pliablepixels/zmeventnotificationNg` (label it)
     - If developing a feature, create a branch
     - Commit changes referring the issue
     - Wait for the user to confirm before you close the issue
@@ -27,14 +27,14 @@ Documentation notes
 -------------------
 - You are an expert document writer and someone who cares deeply that documentation is clear, easy to follow, user friendly and comprehensive and CORRECT.
 - Analyze RTD docs and make sure the documents fully represent the capabilities of the system, does not have outdated or incomplete things and is user forward.
-- Remember that zm_detect.py leans on pyzm (~/fiddle/pyzm) for most of its functionality. Always validate what is true by reading pyzm code
+- Remember that zm_detect.py leans on pyzmNg (~/fiddle/pyzmNg) for most of its functionality. Always validate what is true by reading pyzmNg code
 - Never make changes to CHANGELOG. It is auto generated
 - When adding, removing, or changing ANY config key, you MUST update:
   * The config reference table in `docs/guides/config.rst` (under "Complete Hook Config Reference")
   * The example config `hook/objectconfig.example.yml`
   * `hook/zmes_hook_helpers/common_params.py` (for flat keys)
   * Any code examples in `docs/guides/hooks.rst` that reference the key
-  * pyzm docs if the key is consumed by pyzm
+  * pyzmNg docs if the key is consumed by pyzmNg
 
 When responding to issues or PRs from others
 --------------------------------------------

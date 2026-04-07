@@ -13,7 +13,7 @@ There are two paths:
 
 Necessary Reading - Sample Config Files
 ----------------------------------------
-The sample configuration files, `zmeventnotification.example.yml <https://github.com/pliablepixels/zmeventnotification/blob/master/zmeventnotification.example.yml>`__ and `objectconfig.example.yml <https://github.com/pliablepixels/zmeventnotification/blob/master/hook/objectconfig.example.yml>`__ come with extensive commentary about each attribute and what they do. Please go through them to get a better understanding. Note that most of the configuration attributes in ``zmeventnotification.yml`` are not related to machine learning, except for the ``hook`` section.
+The sample configuration files, `zmeventnotification.example.yml <https://github.com/pliablepixels/zmeventnotificationNg/blob/master/zmeventnotification.example.yml>`__ and `objectconfig.example.yml <https://github.com/pliablepixels/zmeventnotificationNg/blob/master/hook/objectconfig.example.yml>`__ come with extensive commentary about each attribute and what they do. Please go through them to get a better understanding. Note that most of the configuration attributes in ``zmeventnotification.yml`` are not related to machine learning, except for the ``hook`` section.
 
 .. _hooks-debug-issues:
 
@@ -96,7 +96,7 @@ is important — it runs the script as the same user the ES uses, so file permis
 and library paths match.
 
 - ``--debug`` enables verbose console output from zm_detect itself.
-- ``--pyzm-debug`` routes the pyzm library's internal debug logs (model loading,
+- ``--pyzm-debug`` routes the pyzmNg library's internal debug logs (model loading,
   frame download, inference) through the same log, so you can see exactly what
   the ML pipeline is doing.
 

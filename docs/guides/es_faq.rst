@@ -45,7 +45,7 @@ How can I use this with Node-Red or Home Assistant?
 ---------------------------------------------------
 
 As of version 1.1, the event server also supports MQTT (Contributed by
-`@vajonam <https://github.com/vajonam>`__). zmeventnotification server can
+`@vajonam <https://github.com/vajonam>`__). zmeventnotificationNg server can
 be configured to broadcast on a topic called
 ``/zoneminder/<monitor-id>`` which can then be consumed by Home
 Assistant or Node-Red.
@@ -92,7 +92,7 @@ the following
 
 .. _upgrade_es_hooks:
 
-How do I safely upgrade zmeventnotification to new versions?
+How do I safely upgrade zmeventnotificationNg to new versions?
 ------------------------------------------------------------
 
 STEP 1: get the latest code
@@ -102,8 +102,8 @@ Download the latest version & change dir to it:
 
 ::
 
-  git clone https://github.com/pliablepixels/zmeventnotification.git
-  cd zmeventnotification/
+  git clone https://github.com/pliablepixels/zmeventnotificationNg.git
+  cd zmeventnotificationNg/
 
 STEP 2: stop the current ES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,8 +152,8 @@ Make sure you look at the logs to make sure its started properly
 Configuring the notification server
 -----------------------------------
 
-Understanding zmeventnotification configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Understanding zmeventnotificationNg configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Starting v1.0, `@synthead <https://github.com/synthead>`__ reworked the
 configuration as follows:
@@ -271,7 +271,7 @@ support for person detection)
    notification to the clients listening
 
 Those who want to know more: - Read the detailed notes
-`here <https://github.com/pliablepixels/zmeventnotification/tree/master/hook>`__
+`here <https://github.com/pliablepixels/zmeventnotificationNg/tree/master/hook>`__
 - Read
 `this <https://medium.com/zmninja/inside-the-hood-machine-learning-enhanced-real-time-alarms-with-zoneminder-e26c34fe354c>`__
 for an explanation of how this works
@@ -375,7 +375,7 @@ the following conditions must be met:
 
 Before you report issues, please make sure you have been diligent in
 testing - Try with a public URL as indicated above. This is important. -
-In your issue, post debug logs of zmeventnotification so I can see what
+In your issue, post debug logs of zmeventnotificationNg so I can see what
 message it is sending
 
 Secure mode just doesn't work (WSS) - WS works
@@ -445,7 +445,7 @@ credentials (and in that case, you'll see an error message)
     have a device token). If you are using zmNinjaNG on a mobile device and
     don't see an entry in ``tokens.txt``, the registration did not succeed.
 
-9.  Always include logs from both zmNinjaNG and zmeventnotification when
+9.  Always include logs from both zmNinjaNG and zmeventnotificationNg when
     reporting issues. Single-line log excerpts are rarely sufficient — include
     the full relevant section.
 
@@ -560,7 +560,7 @@ in daemon model, please see :doc:`hooks_faq`)
 
 -  Make sure your certificates are readable by ``www-data`` for
    Ubuntu/Debian, or ``apache`` for Fedora/CentOS (thanks to
-   `@jagee <https://github.com/pliablepixels/zmeventnotification/issues/8>`_).
+   `@jagee <https://github.com/pliablepixels/zmeventnotificationNg/issues/8>`_).
 -  Make sure the *path* to the certificates are readable by ``www-data``
    for Ubuntu/Debian, or ``apache`` for Fedora/CentOS
 
@@ -665,7 +665,7 @@ Here is how to debug and report:
 **When you send ES/detection logs:**
 
 
-When ``zm_detect.py`` starts, it logs both its own version and the pyzm library version. Make sure both are current. If the versions are mismatched, re-run ``install.sh`` to bring everything up to date.
+When ``zm_detect.py`` starts, it logs both its own version and the pyzmNg library version. Make sure both are current. If the versions are mismatched, re-run ``install.sh`` to bring everything up to date.
 
 
 - Make sure you see ``DBG`` logs (Debug). If you only see ``INF`` logs, you haven't followed the instructions above to enable debug logs. Read :ref:`es-hooks-logging` again.
@@ -693,7 +693,7 @@ To get DEBUG logs:
 
 ::
 
-  pp@homeserver:~/fiddle/zmeventnotification$ tail -F /var/log/zm/zmeventnotification.log /var/log/zm/zmesdetect_m*.log
+  pp@homeserver:~/fiddle/zmeventnotificationNg$ tail -F /var/log/zm/zmeventnotification.log /var/log/zm/zmesdetect_m*.log
   ==> /var/log/zm/zmeventnotification.log <==
   10/06/2019 06:48:29.200008 zmeventnotification[13694].INF [main:557] [Invoking hook:'/var/lib/zmeventnotification/bin/zm_event_start.sh' 33989 2 "DoorBell" " front" "/var/cache/zoneminder/events/2/2019-10-06/33989"]
   10/06/2019 06:48:34.013490 zmeventnotification[29913].INF [main:557] [New event 33990 reported for Monitor:10 (Name:FrontLawn)  front steps]
@@ -726,7 +726,7 @@ To get DEBUG logs:
     -  Make sure you haven't muted notifications
     -  Sometimes Apple's or Google's push servers delay or drop messages temporarily — wait 24 hours and retry
     -  Open zmNinjaNG, go to logs, and include them when reporting an issue
-    -  When reporting issues, include both your zmeventnotification logs and zmNinjaNG debug logs
+    -  When reporting issues, include both your zmeventnotificationNg logs and zmNinjaNG debug logs
 
 
 Brickbats
@@ -742,7 +742,7 @@ from the source when accessing another URL via the Referral header
 **So it's encrypted, but passing password is a bad idea. Why not some
 token?**
 
--  ZM supports login tokens and pyzm uses them automatically.
+-  ZM supports login tokens and pyzmNg uses them automatically.
 
 **Why WSS and not WS?**
 

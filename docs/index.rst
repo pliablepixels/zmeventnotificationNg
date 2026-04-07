@@ -6,8 +6,8 @@
 Event Notification Server v7+ Documentation
 =============================================
 
-.. image:: ../logo/zmES7plus.png
-   :alt: zmES7+ Logo
+.. image:: ../logo/zmesng.png
+   :alt: zmES Ng Logo
    :width: 200px
    :align: center
 
@@ -29,11 +29,11 @@ Event Notification Server v7+ Documentation
         :hidden:
         :caption: Related Projects
 
-        pyzmv2+ <https://pyzmv2.readthedocs.io/en/latest/>
+        pyzmNg <https://pyzmng.readthedocs.io/en/latest/>
         zmNinjaNG <https://zmninjang.readthedocs.io/en/latest/>
 
 
-`Github Repository <https://github.com/pliablepixels/zmeventnotification>`__
+`Github Repository <https://github.com/pliablepixels/zmeventnotificationNg>`__
 
 What is the Event Server and the ML Ecosystem?
 ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -46,10 +46,10 @@ per-monitor notification rules, time-based muting, and integration with
 `zmNinjaNG <https://zmninjang.readthedocs.io/en/latest/>`__ (the
 newer-generation app for ZoneMinder).
 
-The **ML Ecosystem** (``zm_detect.py + pyzm``) is the machine learning detection
+The **ML Ecosystem** (``zm_detect.py + pyzmNg``) is the machine learning detection
 framework. They take a ZoneMinder event and run it through one or more
 ML pipelines — supporting multiple model types (object, face, ALPR, etc.).
-The ML hook is powered by `pyzm <https://pyzmv2.readthedocs.io/en/latest/#>`__,
+The ML hook is powered by `pyzmNg <https://pyzmng.readthedocs.io/en/latest/#>`__,
 a standalone ML detection library that can also be used independently.
 
 The ES and the hook can be used together or separately, as described below.
@@ -106,8 +106,8 @@ Documentation
         If you want to use the Event Notification Server to make your own app/client
 :doc:`guides/contrib_guidelines`
         If you want to contribute hook scripts to the ES
-`pyzmv2+ <https://pyzmv2.readthedocs.io/en/latest/>`__
-        Documentation for pyzm, the ML detection library
+`pyzmNg <https://pyzmng.readthedocs.io/en/latest/>`__
+        Documentation for pyzmNg, the ML detection library
 `zmNinjaNG <https://zmninjang.readthedocs.io/en/latest/>`__
         Documentation for zmNinjaNG, the newer-generation app for ZoneMinder
 

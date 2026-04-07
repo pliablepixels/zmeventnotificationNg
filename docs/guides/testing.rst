@@ -1,7 +1,7 @@
 Testing
 ========
 
-The zmeventnotification project has two tiers of tests: unit tests that
+The zmeventnotificationNg project has two tiers of tests: unit tests that
 need no special hardware, and end-to-end (e2e) tests that run real ML
 models through the full config-to-detection chain.
 
@@ -13,7 +13,7 @@ Running all tests
 
 .. code-block:: bash
 
-   cd zmeventnotification
+   cd zmeventnotificationNg
 
    # Perl tests
    prove -I t/lib -I . -r t/
@@ -25,7 +25,7 @@ Running all tests
 Unit / integration tests
 -------------------------
 
-These tests mock pyzm and use no real models.  They run anywhere:
+These tests mock pyzmNg and use no real models.  They run anywhere:
 
 .. code-block:: bash
 
@@ -41,10 +41,10 @@ End-to-end tests
 -----------------
 
 The ``hook/tests/test_e2e/`` directory contains tests that exercise
-the full objectconfig YAML → pyzm detection → output chain using real
+the full objectconfig YAML → pyzmNg detection → output chain using real
 YOLO models and a real test image (``bird.jpg``, included in the repo).
 
-These tests use **real pyzm** (installed as a system library, not
+These tests use **real pyzmNg** (installed as a system library, not
 mocked) and call the same functions that ``zm_detect.py`` uses:
 ``process_config()`` → secret substitution → ``Detector.from_dict()`` →
 ``detector.detect()`` → ``format_detection_output()``.
@@ -128,7 +128,7 @@ Test dependencies
    * - Python (unit)
      - ``pytest``, ``pyyaml``
    * - Python (e2e)
-     - all of the above plus ``pyzm``, ``opencv-python``, ``numpy``, ``shapely``
+     - all of the above plus ``pyzmNg``, ``opencv-python``, ``numpy``, ``shapely``
 
 
 Pytest markers
@@ -141,4 +141,4 @@ Pytest markers
    * - Marker
      - Description
    * - ``e2e``
-     - End-to-end tests requiring real pyzm, models, and images on disk
+     - End-to-end tests requiring real pyzmNg, models, and images on disk

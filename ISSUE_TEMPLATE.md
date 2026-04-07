@@ -1,4 +1,4 @@
-Before you create an issue, please make sure you have read the [README](https://github.com/pliablepixels/zmeventserver/blob/master/README.md). If you are asking about the object detection part, I don't provide support for it unless you've tried hard enough.
+Before you create an issue, please make sure you have read the [README](https://github.com/pliablepixels/zmeventnotificationNg/blob/master/README.md). If you are asking about the object detection part, I don't provide support for it unless you've tried hard enough.
 
 
 **Event Server version**
@@ -35,7 +35,7 @@ Describe in detail. If its a bug, please describe what is happening, what should
 **Debug Logs** (if applicable)
 
 **Important**: Please post DEBUG logs NOT INF logs. Instructions on how to enable debug logs
-are posted <a href='https://zmeventnotificationv7.readthedocs.io/en/latest/guides/es_faq.html#logging'>HERE</a>
+are posted <a href='https://zmeventnotificationng.readthedocs.io/en/latest/guides/es_faq.html#logging'>HERE</a>
 
 ```
 

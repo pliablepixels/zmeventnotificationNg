@@ -9,7 +9,7 @@ If you only want ML detection without the ES, see :doc:`install_path1` instead.
 Step 1: Install ML dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow **Steps 1 and 2** from :doc:`install_path1` to install OpenCV and pyzm.
+Follow **Steps 1 and 2** from :doc:`install_path1` to install OpenCV and pyzmNg.
 These are needed for the ML hooks that the ES invokes.
 
 Step 2: Install the WebSocket Perl module
@@ -31,8 +31,8 @@ Step 3: Run the installer
 
 .. code:: bash
 
-   git clone https://github.com/pliablepixels/zmeventnotification
-   cd zmeventnotification
+   git clone https://github.com/pliablepixels/zmeventnotificationNg
+   cd zmeventnotificationNg
    sudo -H ./install.sh    # say Yes to everything
 
 Or, to run non-interactively:
@@ -46,10 +46,10 @@ and sets up the directory structure.
 
 .. note::
 
-   The installer pulls in **core pyzm** automatically. If you need additional
-   pyzm extras (remote ML server, training UI, etc.) or want to install a
-   local development version of pyzm, see the
-   `pyzm installation guide <https://pyzmv2.readthedocs.io/en/latest/guide/installation.html>`__.
+   The installer pulls in **core pyzmNg** automatically. If you need additional
+   pyzmNg extras (remote ML server, training UI, etc.) or want to install a
+   local development version of pyzmNg, see the
+   `pyzmNg installation guide <https://pyzmng.readthedocs.io/en/latest/guide/installation.html>`__.
 
 .. note::
 

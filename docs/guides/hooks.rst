@@ -6,7 +6,7 @@ Machine Learning Hooks
         This page covers the ML detection pipeline, which is required for **both**
         Path 1 (detection + optional push) and Path 2 (full ES).
         For installation instructions, see :doc:`installation`.
-        The hooks use `pyzm <https://pyzmv2.readthedocs.io/en/latest/>`__ v2
+        The hooks use `pyzmNg <https://pyzmng.readthedocs.io/en/latest/>`__ v2
         for detection. Make sure you have ``pyzm`` installed before proceeding.
 
 .. important::
@@ -37,14 +37,14 @@ Requirements
 
 - Python 3.10+
 - OpenCV 4.13+ (for the default ONNX YOLO models)
-- pyzm v2 (``pip install pyzm``)
+- pyzmNg v2 (``pip install pyzm``)
 
 How it works
 ~~~~~~~~~~~~
 
 The main detection script is ``zm_detect.py``. It reads ``objectconfig.yml``,
 connects to ZoneMinder, downloads event frames, runs the ML detection pipeline
-(via pyzm's ``Detector`` API), and returns results.
+(via pyzmNg's ``Detector`` API), and returns results.
 
 .. _path1_setup:
 
@@ -84,13 +84,13 @@ notification rules/muting, or the ES control interface.
 
    Push notifications in Path 1 require ZoneMinder 1.39.2+ (which adds the
    ``Notifications`` REST API for token storage). Devices register their FCM tokens
-   via the ZM API; ``zm_detect`` reads them via pyzm and sends push notifications
+   via the ZM API; ``zm_detect`` reads them via pyzmNg and sends push notifications
    through an FCM cloud function proxy after detection. See the ``push`` section
    in ``objectconfig.yml`` for configuration.
 
 To set up Path 1, you only need to:
 
-1. Install pyzm and the hooks (see :doc:`install_path1`)
+1. Install pyzmNg and the hooks (see :doc:`install_path1`)
 2. Edit ``/etc/zm/objectconfig.yml`` with your ZM portal credentials and desired models
 3. Set the **Event Start Command** in the monitor's Config -> Recording tab as shown above
 4. Optionally, set **Event End Command** (same tab) to a similar invocation if you want end-of-event processing
@@ -117,7 +117,7 @@ ES control interface.
 To set up Path 2:
 
 1. Install the ES and its Perl dependencies (see :doc:`install_path2`)
-2. Install pyzm and the hooks (see :doc:`install_path1`)
+2. Install pyzmNg and the hooks (see :doc:`install_path1`)
 3. Edit ``/etc/zm/zmeventnotification.yml`` and ``/etc/zm/objectconfig.yml``
 4. Enable ``OPT_USE_EVENTNOTIFICATION`` in ZM ``Options -> Systems``
 
@@ -439,7 +439,7 @@ Take a look at `this article <https://medium.com/zmninja/multi-frame-and-multi-m
 **All options:**
 
 ``ml_sequence`` supports various other attributes. See the
-`pyzm DetectorConfig documentation <https://pyzmv2.readthedocs.io/en/latest/source/pyzm.html>`__
+`pyzmNg DetectorConfig documentation <https://pyzmng.readthedocs.io/en/latest/source/pyzm.html>`__
 for the full list of supported keys (``match_past_detections``, ``past_det_max_diff_area``,
 ``aliases``, ``max_detection_size``, etc.).
 
@@ -473,7 +473,7 @@ Take a look at `this article <https://medium.com/zmninja/multi-frame-and-multi-m
 **All options:**
 
 ``stream_sequence`` supports various other attributes. See the
-`pyzm StreamConfig documentation <https://pyzmv2.readthedocs.io/en/latest/source/pyzm.html>`__
+`pyzmNg StreamConfig documentation <https://pyzmng.readthedocs.io/en/latest/source/pyzm.html>`__
 for the full list (``max_frames``, ``start_frame``, ``frame_skip``, ``save_frames``, etc.).
 
 
@@ -501,7 +501,7 @@ Using the remote ML detection server (pyzm.serve)
 
 .. note::
 
-   ``pyzm.serve`` replaces the legacy ``mlapi`` server. It is built into pyzm itself,
+   ``pyzm.serve`` replaces the legacy ``mlapi`` server. It is built into pyzmNg itself,
    uses the same ``Detector`` API, and requires no separate configuration file. The old
    ``mlapiconfig.ini`` is no longer needed.
 

@@ -6,9 +6,9 @@ All configuration files use **YAML format**. There are two parts to the configur
 * The Event Notification Server configuration — typically ``/etc/zm/zmeventnotification.yml``
 * The Machine Learning Detection Hook configuration — typically ``/etc/zm/objectconfig.yml``
 
-The ES comes with a `sample ES config file <https://github.com/pliablepixels/zmeventnotification/blob/master/zmeventnotification.example.yml>`__
+The ES comes with a `sample ES config file <https://github.com/pliablepixels/zmeventnotificationNg/blob/master/zmeventnotification.example.yml>`__
 which you should customize as fit. The sample config file is well annotated, so you really should read the comments to get an
-understanding of what each parameter does. Similarly, the ES also comes with a `sample objectconfig.yml file <https://github.com/pliablepixels/zmeventnotification/blob/master/hook/objectconfig.example.yml>`__
+understanding of what each parameter does. Similarly, the ES also comes with a `sample objectconfig.yml file <https://github.com/pliablepixels/zmeventnotificationNg/blob/master/hook/objectconfig.example.yml>`__
 which you should read as well if you are using hooks.
 
 .. note::
@@ -447,7 +447,7 @@ The file is organized into these sections:
 
 The ``push`` section configures direct FCM push notifications
 from ``zm_detect`` — **Path 1 only**, requires ZM 1.39.2+. ``zm_detect`` reads registered
-tokens from ZM's ``Notifications`` table via pyzm and sends push notifications through an
+tokens from ZM's ``Notifications`` table via pyzmNg and sends push notifications through an
 FCM cloud function proxy after detection.
 
 Setup steps:
@@ -522,7 +522,7 @@ Consumed by ``zm_detect.py`` / ``utils.py``:
      - Directory for detection images and past-detection files
    * - ``pyzm_overrides``
      - ``{}``
-     - Dict of pyzm settings to override (e.g. ``log_level_debug``)
+     - Dict of pyzmNg settings to override (e.g. ``log_level_debug``)
    * - ``wait``
      - ``0``
      - Seconds to sleep before running detection
@@ -614,7 +614,7 @@ See :ref:`push_config` above for setup steps.
 ``remote`` — remote ML gateway settings
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forwarded to pyzm ``Detector``:
+Forwarded to pyzmNg ``Detector``:
 
 .. list-table::
    :header-rows: 1
@@ -645,7 +645,7 @@ Forwarded to pyzm ``Detector``:
 ``ml.stream_sequence`` — frame extraction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Read by pyzm ``StreamConfig``:
+Read by pyzmNg ``StreamConfig``:
 
 .. list-table::
    :header-rows: 1
@@ -691,7 +691,7 @@ Read by pyzm ``StreamConfig``:
 ``ml.ml_sequence.general`` — detection pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Read by pyzm ``DetectorConfig``:
+Read by pyzmNg ``DetectorConfig``:
 
 .. list-table::
    :header-rows: 1

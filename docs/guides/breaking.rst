@@ -1,16 +1,16 @@
 Breaking Changes
 ----------------
 
-pyzm v2 and pyzm.serve (ES 7.x)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+pyzmNg v2 and pyzm.serve (ES 7.x)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-pyzm has been rewritten as v2. This is the ML detection library used by ``zm_detect.py``.
+pyzmNg has been rewritten as v2. This is the ML detection library used by ``zm_detect.py``.
 The key changes that affect ES users:
 
 **What changed:**
 
 - ``mlapi`` **is replaced by** ``pyzm.serve`` — the remote ML detection server is now built
-  into pyzm itself. No separate ``mlapi`` package or ``mlapiconfig.ini`` needed.
+  into pyzmNg itself. No separate ``mlapi`` package or ``mlapiconfig.ini`` needed.
 - **``Detector`` is the single entry point** — replaces ``DetectSequence``, ``ObjectDetect``,
   ``FaceDetect``, and other scattered classes. ``zm_detect.py`` now uses ``Detector.from_dict()``
   and ``Detector.detect_event()`` instead of calling ML backends directly.
@@ -19,12 +19,12 @@ The key changes that affect ES users:
   handles the conversion), but the underlying code is stricter about typos and invalid values.
 - **Typed detection results** — ``DetectionResult`` with ``.labels``, ``.summary``,
   ``.annotate()`` replaces the old ``matched_data`` nested dicts.
-- **Python 3.10+ required** — pyzm v2 uses ``match`` statements, union type syntax (``X | Y``),
+- **Python 3.10+ required** — pyzmNg v2 uses ``match`` statements, union type syntax (``X | Y``),
   and other modern Python features.
 
 **What you need to do:**
 
-1. **Install pyzm v2**: ``pip install pyzm`` (or let ``install.sh`` handle it)
+1. **Install pyzmNg v2**: ``pip install pyzm`` (or let ``install.sh`` handle it)
 2. **If using remote ML**: Replace ``mlapi`` with ``pyzm.serve``:
 
    - On the GPU box: ``pip install pyzm[serve]`` then ``python -m pyzm.serve --models yolo11s --port 5000``
@@ -111,7 +111,7 @@ automatically merge new defaults from the example config.
 
 - ``general.version`` — was never read by any code
 - ``general.delete_after_analyze`` — was never read by ``zm_detect.py``
-- ``general.cpu_max_processes``, ``general.tpu_max_processes``, ``general.gpu_max_processes`` — pyzm
+- ``general.cpu_max_processes``, ``general.tpu_max_processes``, ``general.gpu_max_processes`` — pyzmNg
   reads these per-model from ``ml_sequence`` items, not from flat config
 - ``general.cpu_max_lock_wait``, ``general.tpu_max_lock_wait``, ``general.gpu_max_lock_wait`` — same reason
 - ``animation`` section (``create_animation``, ``animation_types``, ``animation_width``,
@@ -122,12 +122,12 @@ automatically merge new defaults from the example config.
 - ``ml.stream_sequence.frame_strategy`` → ``ml.ml_sequence.general.frame_strategy`` —
   ``StreamConfig`` ignores this key; ``DetectorConfig`` reads it from ``ml_sequence.general``
 - ``ml.disable_locks`` → ``ml.ml_sequence.general.disable_locks`` —
-  was a sibling of ``ml_sequence``/``stream_sequence`` and never reached pyzm
+  was a sibling of ``ml_sequence``/``stream_sequence`` and never reached pyzmNg
 - ``monitors.<id>.resize`` → ``monitors.<id>.stream_sequence.resize`` —
-  top-level ``resize`` in a monitor override was stored in ``g.config`` but pyzm reads it
+  top-level ``resize`` in a monitor override was stored in ``g.config`` but pyzmNg reads it
   from ``stream_sequence``
 - ``monitors.<id>.match_past_detections`` → ``monitors.<id>.ml_sequence.general.match_past_detections`` —
-  same issue: top-level copy never reached pyzm
+  same issue: top-level copy never reached pyzmNg
 
 **Default changed:**
 
