@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 
 
+## [7.0.17] - 2026-04-08
+
+### Bug Fixes
+
+- we don't need resize ([d99fa70](https://github.com/pliablepixels/zmeventnotification/commit/d99fa70b1d2a291442d95eb3ad40dae94179b94d))
+
+### Documentation
+
+- rename project to zmeventnotificationNg / pyzmNg across all user-facing docs ([fa50785](https://github.com/pliablepixels/zmeventnotification/commit/fa50785b393acc4bcc4bb5e535388bdc7dbc27dc))
+
+### Miscellaneous
+
+- ver bump ([1624a69](https://github.com/pliablepixels/zmeventnotification/commit/1624a697b0db279da073565e51edb4c1982bce20))
+- ver bump ([647370d](https://github.com/pliablepixels/zmeventnotification/commit/647370d4ee37e9c81a4c766a51785a8dcd6b9644))
+
 ## [7.0.16] - 2026-03-17
 
 ### Bug Fixes
@@ -11,6 +26,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- update CHANGELOG for v7.0.16 ([f3b4b28](https://github.com/pliablepixels/zmeventnotification/commit/f3b4b28406eefeed277097b1e491422741cc4a7e))
 - update CHANGELOG for v7.0.16 ([36c0a37](https://github.com/pliablepixels/zmeventnotification/commit/36c0a3775dad1081d32d34abb131611a9e9cae04))
 
 ### Features
