@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Event Notification Server v7+ Documentation
-=============================================
+zmesNg Event Notification Server Documentation
+================================================
 
 .. image:: ../logo/zmesng.png
    :alt: zmES Ng Logo
