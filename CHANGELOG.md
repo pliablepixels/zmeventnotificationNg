@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 
 
+## [7.0.18] - 2026-05-12
+
+### Bug Fixes
+
+- patch venv shebang and fix tuple assignment for user key ([7da1057](https://github.com/pliablepixels/zmeventnotification/commit/7da1057b3a776a26ab7fde3984e0f6c69b0931c6))
+
+### Documentation
+
+- update RTD title to zmesNg Event Notification Server Documentation ([b00464d](https://github.com/pliablepixels/zmeventnotification/commit/b00464d135d20dfe0dac25c5ecc87ee66eccfc62))
+
+### Features
+
+- log resolved file path on startup via pyzm get_log_file() ([f43a88e](https://github.com/pliablepixels/zmeventnotification/commit/f43a88e0e6f303486eb7adb4e34290aa9ff9dece))
+
 ## [7.0.17] - 2026-04-08
 
 ### Bug Fixes
@@ -11,6 +25,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- update CHANGELOG for v7.0.17 ([a34b290](https://github.com/pliablepixels/zmeventnotification/commit/a34b2901cc809880097e0dbf0a84a025e7bf520c))
 - rename project to zmeventnotificationNg / pyzmNg across all user-facing docs ([fa50785](https://github.com/pliablepixels/zmeventnotification/commit/fa50785b393acc4bcc4bb5e535388bdc7dbc27dc))
 
 ### Miscellaneous
