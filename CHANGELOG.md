@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
+## [7.0.19] - 2026-05-16
+
+### Documentation
+
+- document convert_snapshot_to_fid default flip to "no" ([2a3716c](https://github.com/pliablepixels/zmeventnotification/commit/2a3716c6b7efec4633b4d49286e77c1de4b3d479))
+
+### Miscellaneous
+
+- bump version to v7.0.19 ([2b4e8d5](https://github.com/pliablepixels/zmeventnotification/commit/2b4e8d56a736fcaaaeac1bdb68b1eaad90bbe5e4))
+- verbump ([a32cd8a](https://github.com/pliablepixels/zmeventnotification/commit/a32cd8af5548119090c89d7d0dfbf7f5a5fb522a))
+
 ## [7.0.18] - 2026-05-12
 
 ### Bug Fixes
@@ -11,6 +22,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
+- update CHANGELOG for v7.0.18 ([f9d4fc4](https://github.com/pliablepixels/zmeventnotification/commit/f9d4fc4db64cb78863fa3e68b1fa0ea13894a52d))
 - update RTD title to zmesNg Event Notification Server Documentation ([b00464d](https://github.com/pliablepixels/zmeventnotification/commit/b00464d135d20dfe0dac25c5ecc87ee66eccfc62))
 
 ### Features
