@@ -1,4 +1,4 @@
-"""Tests for import_zm_zones using pyzm ZMClient. Ref: pliablepixels/zmeventnotification#18"""
+"""Tests for import_zm_zones using pyzm ZMClient. Ref: ZoneMinder/zmeventnotificationNg#18"""
 import sys
 import os
 import pytest
@@ -102,7 +102,7 @@ class TestImportZmZones:
         assert len(g.polygons) == 2
 
     def test_float_percentage_coords(self):
-        """Float/percentage coordinates are preserved. Ref: pliablepixels/zmeventnotification#18"""
+        """Float/percentage coordinates are preserved. Ref: ZoneMinder/zmeventnotificationNg#18"""
         from zmes_hook_helpers.utils import import_zm_zones
 
         mock_zm = MagicMock()

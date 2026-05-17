@@ -5,8 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_DIR"
 
-# Always target the pliablepixels fork, never upstream
-GH_REPO="pliablepixels/zmeventnotification"
+GH_REPO="ZoneMinder/zmeventnotificationNg"
 
 # --- Read version ---
 if [ ! -f ./VERSION ]; then

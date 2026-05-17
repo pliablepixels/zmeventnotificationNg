@@ -95,7 +95,7 @@ def main_handler():
     zm = ZMClient(api_url=g.config['api_portal'], user=g.config['user'], password=g.config['password'],
                   portal_url=g.config['portal'], verify_ssl=(g.config['allow_self_signed'] != 'yes'))
 
-    # Import ZM zones via pyzm client (ref: pliablepixels/zmeventnotification#18)
+    # Import ZM zones via pyzm client (ref: ZoneMinder/zmeventnotificationNg#18)
     if g.config.get('import_zm_zones') == 'yes':
         mid = args.get('monitorid')
         if mid:

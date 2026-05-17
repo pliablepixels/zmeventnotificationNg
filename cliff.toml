@@ -1,9 +1,9 @@
-# git-cliff configuration for zmeventnotification
+# git-cliff configuration for zmeventnotificationNg
 # https://git-cliff.org/docs/configuration
 
 [remote.github]
-owner = "pliablepixels"
-repo = "zmeventnotification"
+owner = "ZoneMinder"
+repo = "zmeventnotificationNg"
 
 [changelog]
 header = """
@@ -24,7 +24,7 @@ body = """
 {%- else -%}
 {%- set commit_message = commit.message -%}
 {%- endif %}
-- {{ commit_message | split(pat="\n") | first | trim }}{% if commit.remote.pr_number %} in [#{{ commit.remote.pr_number }}](https://github.com/pliablepixels/zmeventnotification/pull/{{ commit.remote.pr_number }}){% endif %} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/pliablepixels/zmeventnotification/commit/{{ commit.id }}))
+- {{ commit_message | split(pat="\n") | first | trim }}{% if commit.remote.pr_number %} in [#{{ commit.remote.pr_number }}](https://github.com/ZoneMinder/zmeventnotificationNg/pull/{{ commit.remote.pr_number }}){% endif %} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/ZoneMinder/zmeventnotificationNg/commit/{{ commit.id }}))
 {%- endfor %}
 {% endfor %}
 """
@@ -39,7 +39,7 @@ filter_unconventional = true
 split_commits = false
 commit_preprocessors = [
   # Turn #NNN issue/PR references into GitHub links
-  { pattern = '#([0-9]+)', replace = "[#$1](https://github.com/pliablepixels/zmeventnotification/issues/$1)" },
+  { pattern = '#([0-9]+)', replace = "[#$1](https://github.com/ZoneMinder/zmeventnotificationNg/issues/$1)" },
 ]
 commit_parsers = [
   { message = "^Merge", skip = true },

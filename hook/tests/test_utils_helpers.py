@@ -26,7 +26,7 @@ class TestStr2Tuple:
             str2tuple("0,0")
 
     def test_float_coords(self):
-        """Percentage-based coords must parse. Ref: pliablepixels/zmeventnotification#18"""
+        """Percentage-based coords must parse. Ref: ZoneMinder/zmeventnotificationNg#18"""
         result = str2tuple("26.41,33.5 75.2,33.5 75.2,90.1 26.41,90.1")
         assert result == [(26.41, 33.5), (75.2, 33.5), (75.2, 90.1), (26.41, 90.1)]
 

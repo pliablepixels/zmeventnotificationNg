@@ -7,7 +7,7 @@ from setuptools import setup
 #Package meta-data
 NAME = 'zmes_hook_helpers'
 DESCRIPTION = 'ZoneMinder EventServer hook helper functions'
-URL = 'https://github.com/pliablepixels/zmeventserver/'
+URL = 'https://github.com/ZoneMinder/zmeventnotificationNg/'
 AUTHOR_EMAIL = 'pliablepixels@gmail.com'
 AUTHOR = 'Pliable Pixels'
 LICENSE = 'GPL'
